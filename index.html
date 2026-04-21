@@ -181,9 +181,19 @@
     }
     footer a { color: var(--gold); text-decoration: none; }
 
+    .hamburger { display: none; background: none; border: none; color: var(--gold); font-size: 1.5em; cursor: pointer; }
+    .mobile-menu {
+      display: none; flex-direction: column; align-items: center; gap: 16px;
+      padding: 20px; background: var(--bg2); border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu a { color: var(--text-muted); text-decoration: none; font-size: 0.95em; }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu.open { display: flex; }
+
     @media (max-width: 768px) {
       nav { padding: 14px 20px; }
       nav .links { display: none; }
+      .hamburger { display: block; }
       .hero h1 { font-size: 1.8em; }
       .stats-bar { flex-wrap: wrap; gap: 20px; padding: 20px; }
       .stat .num { font-size: 1.5em; }
@@ -208,7 +218,15 @@
       <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
       <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
     </div>
+    <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
   </nav>
+  <div class="mobile-menu">
+    <a href="#members" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Members</a>
+    <a href="#about" onclick="document.querySelector('.mobile-menu').classList.remove('open')">About</a>
+    <a href="#events" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Events</a>
+    <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
 
   <section class="hero" style="position:relative;overflow:hidden;">
     <canvas id="particles" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
@@ -930,14 +948,14 @@
 <script>
 function toggleTheme() {
   document.body.classList.toggle('light');
-  const btn = document.querySelector('.theme-toggle');
+  const btns = document.querySelectorAll('.theme-toggle');
   const isLight = document.body.classList.contains('light');
-  btn.textContent = isLight ? '☀️' : '🌙';
+  btns.forEach(b => b.textContent = isLight ? '☀️' : '🌙');
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 if (localStorage.getItem('theme') === 'light') {
   document.body.classList.add('light');
-  document.querySelector('.theme-toggle').textContent = '☀️';
+  document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '☀️');
 }
 </script>
 </body>
