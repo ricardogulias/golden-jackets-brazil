@@ -66,21 +66,33 @@
 
     .chat-btn {
       position: fixed; bottom: 20px; right: 20px; z-index: 999; width: 56px; height: 56px;
-      border-radius: 50%; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; cursor: pointer;
-      font-size: 1.5em; box-shadow: 0 4px 15px rgba(184,134,11,0.4); transition: transform 0.3s;
+      border-radius: 50%; background: var(--bg2); border: none; cursor: pointer;
+      font-size: 1.5em; box-shadow: 0 0 25px rgba(255,215,0,0.15); transition: all 0.3s;
+      position: fixed; /* for ::before */
     }
-    .chat-btn:hover { transform: scale(1.1); }
+    .chat-btn::before {
+      content: ''; position: absolute; inset: -2px; border-radius: 50%; z-index: -1;
+      background: linear-gradient(var(--angle, 0deg), #FFD700, #B8860B, #FFD700);
+      animation: rotateBorder 3s linear infinite;
+    }
+    .chat-btn:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,215,0,0.3); }
     .chat-box {
       display: none; position: fixed; bottom: 90px; right: 20px; z-index: 999;
-      width: 320px; max-height: 420px; background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.4); flex-direction: column; overflow: hidden;
+      width: 320px; max-height: 420px; background: var(--bg2); border: 1px solid transparent;
+      border-radius: 12px; box-shadow: 0 0 25px rgba(255,215,0,0.15); flex-direction: column; overflow: hidden;
+      background-clip: padding-box;
+    }
+    .chat-box::before {
+      content: ''; position: absolute; inset: -2px; border-radius: 14px; z-index: -1;
+      background: linear-gradient(var(--angle, 0deg), #FFD700, #B8860B, #FFD700);
+      animation: rotateBorder 3s linear infinite;
     }
     .chat-box.open { display: flex; }
     .chat-header {
-      padding: 14px 16px; background: linear-gradient(135deg, #FFD700, #B8860B); color: #151528; font-weight: 700;
+      padding: 14px 16px; background: var(--bg2); color: var(--gold); font-weight: 700;
       font-size: 0.9em; display: flex; justify-content: space-between; align-items: center;
     }
-    .chat-header button { background: none; border: none; cursor: pointer; font-size: 1.2em; color: #151528; }
+    .chat-header button { background: none; border: none; cursor: pointer; font-size: 1.2em; color: var(--gold); }
     .chat-messages { flex: 1; overflow-y: auto; padding: 12px; max-height: 280px; }
     .chat-msg { margin-bottom: 10px; font-size: 0.85em; line-height: 1.5; }
     .chat-msg.bot { color: var(--text); }
