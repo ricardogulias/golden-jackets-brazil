@@ -9,7 +9,25 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  deploy-origin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::948949707127:role/github-actions-deploy
+          aws-region: us-east-1
+
+      - name: Sync to S3 (origin)
+        run: |
+          aws s3 sync . s3://goldenjacketsbrazil.com/ \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude ".gitignore" \
+            --exclude "README.md"
+
+  deploy-www:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,13 +37,22 @@ jobs:
           role-to-assume: arn:aws:iam::800712212925:role/github-actions-deploy
           aws-region: us-east-1
 
-      - name: Sync to S3
+      - name: Sync to S3 (www)
         run: |
           aws s3 sync . s3://www.goldenjacketsbrazil.com/ \
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude ".gitignore" \
             --exclude "README.md"
+
+  invalidate:
+    needs: [deploy-origin, deploy-www]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::800712212925:role/github-actions-deploy
+          aws-region: us-east-1
 
       - name: Invalidate CloudFront
         run: |
