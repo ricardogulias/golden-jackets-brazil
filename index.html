@@ -64,6 +64,14 @@
     }
     .music-toggle:hover { border-color: var(--gold); }
 
+    .join-btn {
+      position: fixed; bottom: 20px; right: 86px; z-index: 999; width: 56px; height: 56px;
+      border-radius: 50%; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; cursor: pointer;
+      font-size: 1.5em; box-shadow: 0 0 25px rgba(255,215,0,0.3); transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .join-btn:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,215,0,0.5); }
+
     .chat-btn {
       position: fixed; bottom: 20px; right: 20px; z-index: 999; width: 56px; height: 56px;
       border-radius: 50%; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; cursor: pointer;
@@ -1067,6 +1075,7 @@
     <button class="chat-opt" onclick="chatAnswer('contact')">Contact us</button>
   </div>
 </div>
+<button class="join-btn" onclick="document.getElementById('applyForm').classList.add('open');document.querySelector('.cta').scrollIntoView({behavior:'smooth'})" title="Join Golden Jackets Brazil">🏆</button>
 <button class="chat-btn" onclick="toggleChat()" title="Chat with us"><svg width="24" height="24" viewBox="0 0 24 24" fill="#151528"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/></svg></button>
 
 <div class="spotify-player" id="spotifyPlayer">
