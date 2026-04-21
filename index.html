@@ -93,6 +93,15 @@
     }
     .chat-opt:hover { background: var(--gold); color: #151528; }
 
+    .apply-form { max-width: 400px; margin: 30px auto 0; text-align: left; display: none; }
+    .apply-form.open { display: block; }
+    .apply-form input, .apply-form select { width: 100%; padding: 10px 14px; margin-bottom: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9em; font-family: inherit; }
+    .apply-form input:focus, .apply-form select:focus { outline: none; border-color: var(--gold); }
+    .apply-form label { font-size: 0.8em; color: var(--text-muted); margin-bottom: 4px; display: block; }
+    .apply-form button { width: 100%; padding: 12px; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; border-radius: 8px; color: #151528; font-weight: 700; font-size: 0.95em; cursor: pointer; transition: opacity 0.3s; }
+    .apply-form button:hover { opacity: 0.9; }
+    .apply-msg { text-align: center; margin-top: 12px; font-size: 0.85em; }
+
     .spotify-player {
       display: none; position: fixed; bottom: 20px; left: 20px; z-index: 1000;
       border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
@@ -933,6 +942,31 @@
     <h2>Join the journey</h2>
     <p>Follow us for insights, events, and stories from the Brazilian Golden Jacket community.</p>
     <a href="https://lnkd.in/duqvaGdp" target="_blank" class="cta-btn">Follow on LinkedIn</a>
+    <br><br>
+    <a href="#" class="cta-btn" onclick="document.getElementById('applyForm').classList.toggle('open');return false;" style="background:transparent;border:2px solid #FFD700;color:#FFD700;">I'm a Golden Jacket 🏆</a>
+    <div class="apply-form" id="applyForm">
+      <br>
+      <label>Full Name</label>
+      <input type="text" id="applyName" placeholder="e.g. João Silva" required>
+      <label>City</label>
+      <input type="text" id="applyCity" placeholder="e.g. São Paulo">
+      <label>State</label>
+      <select id="applyState">
+        <option value="SP">São Paulo</option><option value="RJ">Rio de Janeiro</option><option value="MG">Minas Gerais</option>
+        <option value="PR">Paraná</option><option value="RS">Rio Grande do Sul</option><option value="SC">Santa Catarina</option>
+        <option value="BA">Bahia</option><option value="DF">Distrito Federal</option><option value="AM">Amazonas</option>
+        <option value="CE">Ceará</option><option value="PE">Pernambuco</option><option value="GO">Goiás</option>
+        <option value="PA">Pará</option><option value="ES">Espírito Santo</option><option value="Other">Other</option>
+      </select>
+      <label>Certification Date</label>
+      <input type="date" id="applyDate">
+      <label>LinkedIn Profile URL</label>
+      <input type="url" id="applyLinkedin" placeholder="https://linkedin.com/in/...">
+      <label>Photo</label>
+      <input type="file" id="applyPhoto" accept="image/*">
+      <button onclick="submitApplication()">Submit Application</button>
+      <div class="apply-msg" id="applyMsg"></div>
+    </div>
   </section>
 
   <footer>
@@ -1046,6 +1080,46 @@ function toggleMusic() {
 
 function toggleChat() {
   document.getElementById('chatBox').classList.toggle('open');
+}
+
+async function submitApplication() {
+  var msg = document.getElementById('applyMsg');
+  msg.innerHTML = '<span style="color:var(--gold)">Submitting...</span>';
+  try {
+    var photoB64 = '';
+    var photoName = '';
+    var fileInput = document.getElementById('applyPhoto');
+    if (fileInput.files.length > 0) {
+      var file = fileInput.files[0];
+      photoName = file.name;
+      photoB64 = await new Promise(function(resolve) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result.split(',')[1]); };
+        reader.readAsDataURL(file);
+      });
+    }
+    var resp = await fetch('https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/apply', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: document.getElementById('applyName').value,
+        city: document.getElementById('applyCity').value,
+        state: document.getElementById('applyState').value,
+        date: document.getElementById('applyDate').value,
+        linkedin: document.getElementById('applyLinkedin').value,
+        photo: photoB64,
+        photoName: photoName
+      })
+    });
+    var data = await resp.json();
+    if (resp.ok) {
+      msg.innerHTML = '<span style="color:#4CAF50">✅ Application submitted! We\'ll review it shortly.</span>';
+    } else {
+      msg.innerHTML = '<span style="color:#f44336">❌ Error: ' + (data.error || 'Try again') + '</span>';
+    }
+  } catch(e) {
+    msg.innerHTML = '<span style="color:#f44336">❌ Error submitting. Please try again.</span>';
+  }
 }
 
 var chatAnswers = {
