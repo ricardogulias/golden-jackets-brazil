@@ -240,6 +240,10 @@
       background: linear-gradient(135deg, #FFD700, #B8860B); color: #151528; margin: 2px; font-weight: 700;
     }
     .member-card .tag.role-founder { background: rgba(255,215,0,0.3); color: var(--gold); font-weight: 800; border: 1px solid #FFD700; padding: 4px 12px; }
+    .member-card.creator { grid-column: 1 / -1; max-width: 320px; margin: 0 auto 20px; border: 2px solid #FFD700; box-shadow: 0 0 30px rgba(255,215,0,0.2); }
+    .member-card.creator::before { background: linear-gradient(var(--angle, 0deg), #FFD700, #fff, #FFD700); }
+    .member-card.creator .photo { width: 100px; height: 100px; border: 3px solid #FFD700; }
+    .tag.role-creator { background: linear-gradient(135deg, #FFD700, #B8860B); color: #151528; font-weight: 800; padding: 4px 14px; font-size: 0.75em; }
     .member-card .tag.role-cofounder { background: rgba(255,215,0,0.3); color: var(--gold); font-weight: 800; border: 1px solid #FFD700; padding: 4px 12px; }
     .member-card .tag.role-ugleader { background: #8e44ad; color: #151528; font-weight: 700; }
     .member-card .tag.role-cb { background: #e67e22; color: #151528; font-weight: 700; }
@@ -785,6 +789,19 @@
     </div>
 
     <div class="members-grid">
+
+      <div class="member-card creator" data-state="ALL">
+        <img src="assets/geriesabouayash.jpg" alt="Geries AbouAyash" class="photo">
+        <h3>Geries AbouAyash</h3>
+        <div class="location">Creator of the Golden Jacket</div>
+        <div class="tags">
+          <span class="tag role-creator">⭐ Golden Jacket Creator</span>
+        </div>
+        <div class="certified">Managing Director, AWS</div>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/geriesabouayash/" target="_blank">in</a>
+        </div>
+      </div>
 
       <div class="member-card founder" data-state="SP">
         <img src="assets/members/ricardogulias.jpg" alt="Ricardo Gulias" class="photo">
