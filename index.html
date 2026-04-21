@@ -65,13 +65,13 @@
     .music-toggle:hover { border-color: var(--gold); }
 
     .join-btn {
-      position: fixed; top: 100px; left: 20px; z-index: 999; width: 56px; height: 56px;
-      border-radius: 50%; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; cursor: pointer;
-      font-size: 1.5em; box-shadow: 0 0 25px rgba(255,215,0,0.3); transition: all 0.3s;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed; top: 100px; left: 20px; z-index: 999;
+      background: none; border: none; cursor: pointer;
+      filter: drop-shadow(0 0 15px rgba(255,215,0,0.4));
+      transition: all 0.3s;
       animation: float 3s ease-in-out infinite;
     }
-    .join-btn:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,215,0,0.5); animation-play-state: paused; }
+    .join-btn:hover { filter: drop-shadow(0 0 25px rgba(255,215,0,0.7)); animation-play-state: paused; }
     @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
     .chat-btn {
@@ -1077,7 +1077,7 @@
     <button class="chat-opt" onclick="chatAnswer('contact')">Contact us</button>
   </div>
 </div>
-<button class="join-btn" onclick="document.getElementById('applyForm').classList.add('open');document.querySelector('.cta').scrollIntoView({behavior:'smooth'})" title="Join Golden Jackets Brazil">🏆</button>
+<button class="join-btn" onclick="document.getElementById('applyForm').classList.add('open');document.querySelector('.cta').scrollIntoView({behavior:'smooth'})" title="Join Golden Jackets Brazil"><svg width="50" height="50" viewBox="0 0 64 64"><path d="M32 8c-4 0-7 2-8 5l-12 6c-2 1-3 3-3 5v20c0 2 1 4 3 5l8 4v-28l4-3v32l8 2 8-2v-32l4 3v28l8-4c2-1 3-3 3-5v-20c0-2-1-4-3-5l-12-6c-1-3-4-5-8-5z" fill="url(#jacketGrad)" stroke="#B8860B" stroke-width="1.5"/><defs><linearGradient id="jacketGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#B8860B"/></linearGradient></defs></svg></button>
 <button class="chat-btn" onclick="toggleChat()" title="Chat with us"><svg width="24" height="24" viewBox="0 0 24 24" fill="#151528"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/></svg></button>
 
 <div class="spotify-player" id="spotifyPlayer">
