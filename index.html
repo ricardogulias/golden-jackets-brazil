@@ -65,7 +65,7 @@
     .music-toggle:hover { border-color: var(--gold); }
 
     .join-btn {
-      position: fixed; top: 90px; left: 60px; z-index: 999;
+      position: fixed; top: 90px; left: 55px; z-index: 999;
       background: none; border: none; cursor: pointer;
       filter: drop-shadow(0 0 15px rgba(255,215,0,0.4));
       transition: all 0.3s;
@@ -1077,7 +1077,7 @@
     <button class="chat-opt" onclick="chatAnswer('contact')">Contact us</button>
   </div>
 </div>
-<button class="join-btn" onclick="document.getElementById('applyForm').classList.add('open');document.querySelector('.cta').scrollIntoView({behavior:'smooth'})" title="Join Golden Jackets Brazil"><img src="assets/jacket-icon.png" width="80" height="80" alt="Join"></button>
+<button class="join-btn" onclick="document.getElementById('applyForm').classList.add('open');document.querySelector('.cta').scrollIntoView({behavior:'smooth'})" title="Join Golden Jackets Brazil"><img src="assets/jacket-icon.png" width="80" height="80" alt="Join"><span style="display:block;font-size:0.6em;color:#FFD700;font-weight:700;margin-top:2px;">Join Us</span></button>
 <button class="chat-btn" onclick="toggleChat()" title="Chat with us"><svg width="24" height="24" viewBox="0 0 24 24" fill="#151528"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/></svg></button>
 
 <div class="spotify-player" id="spotifyPlayer">
