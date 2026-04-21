@@ -1127,7 +1127,7 @@ async function submitApplication() {
     });
     var data = await resp.json();
     if (resp.ok) {
-      msg.innerHTML = '<span style="color:#4CAF50">✅ Application submitted! We\'ll review it shortly.</span>';
+      document.getElementById('applyForm').innerHTML = '<div style="text-align:center;padding:30px 0;"><span style="font-size:3em;">🎉</span><p style="color:var(--gold);font-size:1.2em;font-weight:700;margin:16px 0 8px;">Application Submitted!</p><p style="color:var(--text-muted);font-size:0.9em;">Thank you for applying. We\'ll review your application and get back to you shortly.</p></div>';
     } else {
       msg.innerHTML = '<span style="color:#f44336">❌ Error: ' + (data.error || 'Try again') + '</span>';
     }
