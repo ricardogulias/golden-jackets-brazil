@@ -248,6 +248,16 @@
     }
     .member-card .socials a:hover { background: var(--gold); color: var(--bg); }
 
+    .ticker {
+      flex: 1; overflow: hidden; margin: 0 20px; position: relative; height: 20px;
+    }
+    .ticker-content {
+      display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite;
+      font-size: 0.8em; color: var(--gold); font-weight: 400;
+    }
+    .ticker-content span { margin: 0 24px; }
+    @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
     /* CTA */
     .cta {
       text-align: center; padding: 60px 20px;
@@ -282,6 +292,7 @@
     @media (max-width: 768px) {
       nav { padding: 14px 20px; }
       nav .links { display: none; }
+      .ticker { display: none; }
       .hamburger { display: block; }
       .join-btn { top: 70px; left: 45px; transform: none; }
       .join-btn img { width: 50px; height: 50px; }
@@ -303,6 +314,16 @@
 
   <nav>
     <div class="logo">GJ <span>Brazil</span></div>
+    <div class="ticker">
+      <div class="ticker-content">
+        <span>🏆 14 Members</span>
+        <span>📜 168+ Certifications</span>
+        <span>📍 5 States</span>
+        <span>🆕 Welcome Victor Batista & Rubens Macegossa!</span>
+        <span>🌐 goldenjacketsbrazil.com</span>
+        <span>🇧🇷 Celebrating Brazilian AWS Excellence</span>
+      </div>
+    </div>
     <div class="links">
       <button class="lang-toggle" onclick="toggleLang()" title="Toggle language"><img src="https://flagcdn.com/w40/br.png" width="20" height="14" alt="PT" class="flag-img"></button>
       <a href="#members">Members</a>
