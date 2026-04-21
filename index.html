@@ -989,6 +989,7 @@
         <span style="font-size:2em;">🇧🇷</span>
         <p style="color:var(--gold);font-size:1.1em;font-weight:700;margin:12px 0 6px;">AWS Summit São Paulo</p>
         <p style="color:var(--text-muted);font-size:0.85em;">📅 September 2–3, 2026</p>
+        <p id="countdown-summit" style="color:var(--gold);font-size:0.8em;font-weight:700;margin-top:6px;"></p>
         <p style="color:var(--text-muted);font-size:0.8em;margin-top:8px;">São Paulo Expo, Brazil</p>
         <a href="https://aws.amazon.com/events/summits/sao-paulo/" target="_blank" style="color:var(--gold);font-size:0.8em;text-decoration:none;margin-top:8px;display:inline-block;">Learn more →</a>
       </div>
@@ -996,6 +997,7 @@
         <span style="font-size:2em;">🎰</span>
         <p style="color:var(--gold);font-size:1.1em;font-weight:700;margin:12px 0 6px;">AWS re:Invent 2026</p>
         <p style="color:var(--text-muted);font-size:0.85em;">📅 Nov 30 – Dec 4, 2026</p>
+        <p id="countdown-reinvent" style="color:var(--gold);font-size:0.8em;font-weight:700;margin-top:6px;"></p>
         <p style="color:var(--text-muted);font-size:0.8em;margin-top:8px;">Las Vegas, USA</p>
         <a href="https://reinvent.awsevents.com/" target="_blank" style="color:var(--gold);font-size:0.8em;text-decoration:none;margin-top:8px;display:inline-block;">Learn more →</a>
       </div>
@@ -1291,6 +1293,27 @@ if (localStorage.getItem('theme') === 'light') {
   document.body.classList.add('light');
   document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '☀️');
 }
+
+function updateCountdowns() {
+  var now = new Date();
+  var events = [
+    {id: 'countdown-summit', date: new Date('2026-09-02T08:00:00-03:00')},
+    {id: 'countdown-reinvent', date: new Date('2026-11-30T08:00:00-08:00')}
+  ];
+  events.forEach(function(e) {
+    var el = document.getElementById(e.id);
+    if (!el) return;
+    var diff = e.date - now;
+    if (diff <= 0) { el.textContent = '🔴 Happening now!'; return; }
+    var days = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+    var secs = Math.floor((diff % 60000) / 1000);
+    el.textContent = '⏳ ' + days + 'd ' + hours + 'h ' + mins + 'm ' + secs + 's';
+  });
+}
+updateCountdowns();
+setInterval(updateCountdowns, 1000);
 </script>
 </body>
 <!-- v1.1 -->
