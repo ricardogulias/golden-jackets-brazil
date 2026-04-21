@@ -52,7 +52,7 @@
 
     .music-toggle {
       cursor: pointer; background: none; border: 1px solid var(--border); border-radius: 8px;
-      padding: 6px 10px; font-size: 1.1em; transition: all 0.3s; color: var(--text);
+      padding: 6px 10px; font-size: 1.1em; transition: all 0.3s; color: var(--text); margin-left: -12px;
     }
     .music-toggle:hover { border-color: var(--gold); }
 
@@ -67,9 +67,9 @@
       display: flex; justify-content: space-between; align-items: center;
       padding: 18px 40px; background: var(--bg2); border-bottom: 1px solid var(--border);
     }
-    nav .logo { font-size: 1.2em; font-weight: 800; color: var(--gold); }
+    nav .logo { font-size: 1.5em; font-weight: 800; color: var(--gold); }
     nav .logo span { color: var(--text); font-weight: 300; }
-    nav .links { display: flex; gap: 20px; align-items: center; }
+    nav .links { display: flex; gap: 20px; align-items: center; } nav .links .btn-group { display: flex; gap: 6px; }
     nav .links a { color: var(--text-muted); text-decoration: none; font-size: 1em; transition: color 0.3s; }
     nav .links a:hover { color: var(--gold); }
 
@@ -248,8 +248,7 @@
       <a href="#about">About</a>
       <a href="#events">Events</a>
       <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
-      <button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button><button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button>
     </div>
     <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
   </nav>
