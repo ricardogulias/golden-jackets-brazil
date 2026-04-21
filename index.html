@@ -251,22 +251,23 @@
   <nav>
     <div class="logo">GJ <span>Brazil</span></div>
     <div class="links">
+      <button class="lang-toggle" onclick="toggleLang()" title="Toggle language">🇧🇷</button>
       <a href="#members">Members</a>
       <a href="#about">About</a>
       <a href="#events">Events</a>
       <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button><button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button><button class="lang-toggle" onclick="toggleLang()" title="Toggle language">PT</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button><button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button>
     </div>
     <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
   </nav>
   <div class="mobile-menu">
+    <button class="lang-toggle" onclick="toggleLang()" title="Toggle language">🇧🇷</button>
     <a href="#members" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Members</a>
     <a href="#about" onclick="document.querySelector('.mobile-menu').classList.remove('open')">About</a>
     <a href="#events" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Events</a>
     <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
     <button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button>
-    <button class="lang-toggle" onclick="toggleLang()" title="Toggle language">PT</button>
   </div>
 
   <section class="hero" style="position:relative;overflow:hidden;">
@@ -1033,7 +1034,7 @@ function toggleLang() {
 
 function applyLang() {
   var btns = document.querySelectorAll('.lang-toggle');
-  btns.forEach(function(b) { b.textContent = currentLang === 'en' ? 'PT' : 'EN'; });
+  btns.forEach(function(b) { b.textContent = currentLang === 'en' ? '🇧🇷' : '🇺🇸'; });
 
   var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
   var node;
