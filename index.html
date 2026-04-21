@@ -51,6 +51,12 @@
     }
     .theme-toggle:hover { border-color: var(--gold); }
 
+    .lang-toggle {
+      cursor: pointer; background: none; border: 1px solid var(--border); border-radius: 8px;
+      padding: 6px 10px; font-size: 0.8em; font-weight: 700; transition: all 0.3s; color: var(--text);
+    }
+    .lang-toggle:hover { border-color: var(--gold); }
+
     .music-toggle {
       cursor: pointer; background: none; border: 1px solid var(--border); border-radius: 8px;
       padding: 6px 10px; font-size: 1.1em; transition: all 0.3s; color: var(--text); margin-left: -12px;
@@ -249,7 +255,7 @@
       <a href="#about">About</a>
       <a href="#events">Events</a>
       <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button><button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button><button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button><button class="lang-toggle" onclick="toggleLang()" title="Toggle language">PT</button>
     </div>
     <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
   </nav>
@@ -260,17 +266,18 @@
     <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
     <button class="music-toggle" onclick="toggleMusic()" title="Toggle music">🎵</button>
+    <button class="lang-toggle" onclick="toggleLang()" title="Toggle language">PT</button>
   </div>
 
   <section class="hero" style="position:relative;overflow:hidden;">
     <canvas id="particles" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
     <img src="assets/Designer.png" alt="Golden Jackets Brazil" class="hero-logo">
-    <h1><span class="white">Welcome to </span><span class="gold">Golden Jackets</span><span class="white"> Brazil!</span></h1>
+    <h1><span class="white" data-i18n="welcome">Welcome to </span><span class="gold">Golden Jackets</span><span class="white"> Brazil!</span></h1>
     <p class="desc">
       The Golden Jackets Brazil community celebrates cloud leaders who are passionate about learning and committed to helping others succeed. Our members have achieved all active AWS certifications and actively support others on their cloud journey.
     </p>
     <p class="desc">
-      Already a Golden Jacket holder from Brazil? <a href="https://lnkd.in/duqvaGdp">Get in touch</a> to join the community and be featured on this page.
+      <span data-i18n="getInTouch">Already a Golden Jacket holder from Brazil?</span> <a href="https://lnkd.in/duqvaGdp">Get in touch</a> to join the community and be featured on this page.
     </p>
   </section>
 
@@ -986,6 +993,73 @@
 function toggleMusic() {
   document.getElementById('spotifyPlayer').classList.toggle('open');
 }
+
+var currentLang = localStorage.getItem('lang') || 'en';
+var translations = {
+  'Welcome to ': 'Bem-vindo ao ',
+  'Already a Golden Jacket holder from Brazil?': 'Já é um Golden Jacket do Brasil?',
+  'Get in touch': 'Entre em contato',
+  'About Us': 'Sobre Nós',
+  'We are the Golden Jackets from Brazil — a select group of professionals recognized by Amazon Web Services with the highest distinction in the AWS community worldwide. The Golden Jacket is awarded to those who have earned all active AWS certifications and demonstrated exceptional contribution through technical leadership, content creation, community building, and innovation. Our mission is to share knowledge, inspire the next generation of cloud leaders, and strengthen Brazil\'s presence on the global AWS stage.':
+    'Somos os Golden Jackets do Brasil — um grupo seleto de profissionais reconhecidos pela Amazon Web Services com a mais alta distinção na comunidade AWS mundial. O Golden Jacket é concedido àqueles que conquistaram todas as certificações AWS ativas e demonstraram contribuição excepcional por meio de liderança técnica, criação de conteúdo, construção de comunidade e inovação. Nossa missão é compartilhar conhecimento, inspirar a próxima geração de líderes em nuvem e fortalecer a presença do Brasil no cenário global da AWS.',
+  'The Golden Jackets Brazil community celebrates cloud leaders who are passionate about learning and committed to helping others succeed. Our members have achieved all active AWS certifications and actively support others on their cloud journey.':
+    'A comunidade Golden Jackets Brazil celebra líderes em nuvem apaixonados por aprendizado e comprometidos em ajudar outros a ter sucesso. Nossos membros conquistaram todas as certificações AWS ativas e apoiam ativamente outros em sua jornada na nuvem.',
+  'Members': 'Membros',
+  'Where we are': 'Onde estamos',
+  'Golden Jackets across Brazil': 'Golden Jackets pelo Brasil',
+  'Every Golden Jacket holds all active AWS Certifications': 'Todo Golden Jacket possui todas as Certificações AWS ativas',
+  '12 certifications · 4 levels · Complete mastery': '12 certificações · 4 níveis · Domínio completo',
+  'Filter by State:': 'Filtrar por Estado:',
+  'Events': 'Eventos',
+  'Stay tuned for upcoming community events, meetups, and workshops.': 'Fique ligado nos próximos eventos, meetups e workshops da comunidade.',
+  'Coming Soon': 'Em Breve',
+  'We\'re planning something special. Follow us on LinkedIn to be the first to know!': 'Estamos planejando algo especial. Siga-nos no LinkedIn para ser o primeiro a saber!',
+  'Join the journey': 'Junte-se à jornada',
+  'Follow us for insights, events, and stories from the Brazilian Golden Jacket community.': 'Siga-nos para insights, eventos e histórias da comunidade Golden Jacket do Brasil.',
+  'Follow on LinkedIn': 'Seguir no LinkedIn',
+  'Our Soundtrack': 'Nossa Trilha Sonora',
+  'What Golden Jackets listen to while conquering certifications. 🎸': 'O que os Golden Jackets ouvem enquanto conquistam certificações. 🎸',
+  'Founder': 'Fundador',
+  'Co-Founder': 'Co-Fundador',
+  'Member': 'Membro',
+  'Certified on': 'Certificado em'
+};
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'pt' : 'en';
+  localStorage.setItem('lang', currentLang);
+  applyLang();
+}
+
+function applyLang() {
+  var btns = document.querySelectorAll('.lang-toggle');
+  btns.forEach(function(b) { b.textContent = currentLang === 'en' ? 'PT' : 'EN'; });
+
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  var node;
+  if (currentLang === 'pt') {
+    while (node = walker.nextNode()) {
+      var text = node.textContent.trim();
+      for (var en in translations) {
+        if (text === en) { node.textContent = node.textContent.replace(en, translations[en]); break; }
+      }
+      if (text.startsWith('Certified on')) { node.textContent = node.textContent.replace('Certified on', 'Certificado em'); }
+    }
+  } else {
+    var reverse = {};
+    for (var en in translations) { reverse[translations[en]] = en; }
+    while (node = walker.nextNode()) {
+      var text = node.textContent.trim();
+      for (var pt in reverse) {
+        if (text === pt) { node.textContent = node.textContent.replace(pt, reverse[pt]); break; }
+      }
+      if (text.startsWith('Certificado em')) { node.textContent = node.textContent.replace('Certificado em', 'Certified on'); }
+    }
+  }
+}
+
+if (currentLang === 'pt') { window.addEventListener('DOMContentLoaded', applyLang); }
+
 function toggleTheme() {
   document.body.classList.toggle('light');
   const btns = document.querySelectorAll('.theme-toggle');
