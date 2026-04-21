@@ -65,12 +65,14 @@
     .music-toggle:hover { border-color: var(--gold); }
 
     .join-btn {
-      position: fixed; bottom: 20px; right: 86px; z-index: 999; width: 56px; height: 56px;
+      position: fixed; top: 100px; left: 20px; z-index: 999; width: 56px; height: 56px;
       border-radius: 50%; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; cursor: pointer;
       font-size: 1.5em; box-shadow: 0 0 25px rgba(255,215,0,0.3); transition: all 0.3s;
       display: flex; align-items: center; justify-content: center;
+      animation: float 3s ease-in-out infinite;
     }
-    .join-btn:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,215,0,0.5); }
+    .join-btn:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,215,0,0.5); animation-play-state: paused; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
     .chat-btn {
       position: fixed; bottom: 20px; right: 20px; z-index: 999; width: 56px; height: 56px;
