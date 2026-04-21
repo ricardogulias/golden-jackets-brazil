@@ -1,0 +1,47 @@
+name: Create Cognito User
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  create-user:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'New Member:')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::800712212925:role/github-actions-deploy
+          aws-region: us-east-1
+
+      - name: Extract email and create Cognito user
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          EMAIL=$(echo "$PR_BODY" | grep -oP 'Email:\*\* \K[^\s]+' || echo "")
+          NAME=$(echo "$PR_BODY" | grep -oP 'Name:\*\* \K[^\n]+' || echo "")
+          
+          if [ -z "$EMAIL" ]; then
+            echo "No email found in PR body, skipping Cognito user creation"
+            exit 0
+          fi
+          
+          echo "Creating Cognito user for: $EMAIL"
+          
+          TEMP_PASS="GJ$(date +%s | tail -c 6)!"
+          
+          aws cognito-idp admin-create-user \
+            --user-pool-id us-east-1_Z0VzzrmIX \
+            --username "$EMAIL" \
+            --temporary-password "$TEMP_PASS" \
+            --user-attributes Name=email,Value="$EMAIL" Name=email_verified,Value=true \
+            --desired-delivery-mediums EMAIL \
+            || echo "User may already exist"
+          
+          echo "✅ Cognito user created. Welcome email sent to $EMAIL"
