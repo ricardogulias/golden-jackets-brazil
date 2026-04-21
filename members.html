@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Golden Jackets Brazil - Members Area</title>
+  <title>Golden Jackets Brazil - Members Lounge</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: #151528; color: #e0e0e0; min-height: 100vh; }
     nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; background: #1a1a30; border-bottom: 1px solid #2a2a45; }
     nav .logo { font-size: 1.5em; font-weight: 800; color: #FFD700; }
@@ -26,54 +25,168 @@
     .badge { display: inline-block; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: #FFD700; padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 700; margin-bottom: 12px; }
     footer { text-align: center; padding: 24px 20px; color: #444; font-size: 0.75em; border-top: 1px solid #2a2a45; margin-top: 60px; }
     footer a { color: #FFD700; text-decoration: none; }
+    .login-box { max-width: 400px; margin: 80px auto; text-align: center; }
+    .login-box h2 { color: #FFD700; margin-bottom: 8px; }
+    .login-box p { color: #888; margin-bottom: 24px; font-size: 0.9em; }
+    .login-box input { width: 100%; padding: 12px 14px; margin-bottom: 12px; background: #1a1a30; border: 1px solid #2a2a45; border-radius: 8px; color: #e0e0e0; font-size: 0.95em; font-family: inherit; }
+    .login-box input:focus { outline: none; border-color: #FFD700; }
+    .login-box button { width: 100%; padding: 12px; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; border-radius: 8px; color: #151528; font-weight: 700; font-size: 1em; cursor: pointer; }
+    .login-box button:hover { opacity: 0.9; }
+    .login-msg { margin-top: 12px; font-size: 0.85em; }
+    .user-info { text-align: right; color: #888; font-size: 0.85em; }
+    .user-info a { color: #FFD700; cursor: pointer; text-decoration: none; margin-left: 12px; }
+    #content { display: none; }
   </style>
 </head>
 <body>
   <nav>
-    <div class="logo">GJ <span>Brazil</span> · Members</div>
+    <div class="logo">GJ <span>Brazil</span> · Lounge</div>
     <a href="/">← Back to site</a>
   </nav>
 
-  <div class="container">
-    <h1>🔒 Members Area</h1>
-    <p class="subtitle">Welcome, Golden Jacket! This area is exclusive to verified members.</p>
+  <!-- Login -->
+  <div class="login-box" id="loginBox">
+    <h2>🔒 Members Lounge</h2>
+    <p>Sign in with your Golden Jackets account</p>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPass" placeholder="Password">
+    <button onclick="signIn()">Sign In</button>
+    <p class="login-msg" id="loginMsg"></p>
+  </div>
 
-    <div class="card">
-      <span class="badge">Community</span>
-      <h3>💬 Discord Server</h3>
-      <p>Join our private Discord server to connect with other Golden Jackets, share experiences, and collaborate on initiatives.</p>
-      <br>
-      <a href="https://discord.gg/V98UtmEX" target="_blank">Join Discord →</a>
-    </div>
+  <!-- Content (hidden until auth) -->
+  <div id="content">
+    <nav style="background:none;border:none;padding:8px 40px;">
+      <div></div>
+      <div class="user-info">
+        <span id="userEmail"></span>
+        <a onclick="signOut()">Sign out</a>
+      </div>
+    </nav>
 
-    <div class="card">
-      <span class="badge">Resources</span>
-      <h3>📚 Certification Resources</h3>
-      <p>Curated study materials, exam tips, and strategies shared by our members to help the community grow.</p>
-      <br>
-      <a href="#">Coming soon →</a>
-    </div>
+    <div class="container">
+      <h1>🏆 Members Lounge</h1>
+      <p class="subtitle">Welcome, Golden Jacket! This area is exclusive to verified members.</p>
 
-    <div class="card">
-      <span class="badge">Events</span>
-      <h3>📅 Internal Events</h3>
-      <p>Exclusive meetups, study groups, and community calls for Golden Jacket members only.</p>
-      <br>
-      <a href="#">Coming soon →</a>
-    </div>
+      <div class="card">
+        <span class="badge">Community</span>
+        <h3>💬 Discord Server</h3>
+        <p>Join our private Discord server to connect with other Golden Jackets, share experiences, and collaborate on initiatives.</p>
+        <br>
+        <a href="https://discord.gg/V98UtmEX" target="_blank">Join Discord →</a>
+      </div>
 
-    <div class="card">
-      <span class="badge">Brand</span>
-      <h3>🎨 Brand Assets</h3>
-      <p>Download official Golden Jackets Brazil logos, badges, and social media templates.</p>
-      <br>
-      <a href="#">Coming soon →</a>
+      <div class="card">
+        <span class="badge">Resources</span>
+        <h3>📚 Certification Resources</h3>
+        <p>Curated study materials, exam tips, and strategies shared by our members to help the community grow.</p>
+        <br>
+        <a href="#">Coming soon →</a>
+      </div>
+
+      <div class="card">
+        <span class="badge">Events</span>
+        <h3>📅 Internal Events</h3>
+        <p>Exclusive meetups, study groups, and community calls for Golden Jacket members only.</p>
+        <br>
+        <a href="#">Coming soon →</a>
+      </div>
+
+      <div class="card">
+        <span class="badge">Brand</span>
+        <h3>🎨 Brand Assets</h3>
+        <p>Download official Golden Jackets Brazil logos, badges, and social media templates.</p>
+        <br>
+        <a href="#">Coming soon →</a>
+      </div>
     </div>
   </div>
 
   <footer>
-    <p>Golden Jackets Brazil © 2026 · Members Area</p>
+    <p>Golden Jackets Brazil © 2026 · Members Lounge</p>
     <p><a href="/">Back to main site</a></p>
   </footer>
+
+<script>
+var POOL_ID = 'us-east-1_Z0VzzrmIX';
+var CLIENT_ID = '6p0utci3h0mfsv02k4848vhhch';
+var REGION = 'us-east-1';
+
+// Check if already logged in
+var token = sessionStorage.getItem('gj_token');
+var email = sessionStorage.getItem('gj_email');
+if (token) { showContent(email); }
+
+async function signIn() {
+  var emailVal = document.getElementById('loginEmail').value;
+  var passVal = document.getElementById('loginPass').value;
+  var msg = document.getElementById('loginMsg');
+  msg.innerHTML = '<span style="color:#FFD700">Signing in...</span>';
+
+  try {
+    var resp = await fetch('https://cognito-idp.' + REGION + '.amazonaws.com/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-amz-json-1.1',
+        'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'
+      },
+      body: JSON.stringify({
+        AuthFlow: 'USER_PASSWORD_AUTH',
+        ClientId: CLIENT_ID,
+        AuthParameters: {
+          USERNAME: emailVal,
+          PASSWORD: passVal
+        }
+      })
+    });
+    var data = await resp.json();
+
+    if (data.ChallengeName === 'NEW_PASSWORD_REQUIRED') {
+      // First login - need to set new password
+      msg.innerHTML = '<span style="color:#FFD700">Setting up your account...</span>';
+      var resp2 = await fetch('https://cognito-idp.' + REGION + '.amazonaws.com/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-amz-json-1.1',
+          'X-Amz-Target': 'AWSCognitoIdentityProviderService.RespondToAuthChallenge'
+        },
+        body: JSON.stringify({
+          ChallengeName: 'NEW_PASSWORD_REQUIRED',
+          ClientId: CLIENT_ID,
+          ChallengeResponses: {
+            USERNAME: emailVal,
+            NEW_PASSWORD: passVal
+          },
+          Session: data.Session
+        })
+      });
+      data = await resp2.json();
+    }
+
+    if (data.AuthenticationResult) {
+      sessionStorage.setItem('gj_token', data.AuthenticationResult.IdToken);
+      sessionStorage.setItem('gj_email', emailVal);
+      showContent(emailVal);
+    } else {
+      msg.innerHTML = '<span style="color:#f44336">❌ ' + (data.message || 'Invalid credentials') + '</span>';
+    }
+  } catch(e) {
+    msg.innerHTML = '<span style="color:#f44336">❌ Error signing in. Try again.</span>';
+  }
+}
+
+function showContent(userEmail) {
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('userEmail').textContent = userEmail;
+}
+
+function signOut() {
+  sessionStorage.removeItem('gj_token');
+  sessionStorage.removeItem('gj_email');
+  document.getElementById('loginBox').style.display = 'block';
+  document.getElementById('content').style.display = 'none';
+}
+</script>
 </body>
 </html>
