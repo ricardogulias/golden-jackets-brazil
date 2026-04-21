@@ -343,11 +343,11 @@
 
   <div class="stats-bar">
     <div class="stat">
-      <div class="num">15</div>
+      <div class="num">14</div>
       <div class="label">Members</div>
     </div>
     <div class="stat">
-      <div class="num">180+</div>
+      <div class="num">168+</div>
       <div class="label">Certifications</div>
     </div>
     <div class="stat">
@@ -737,7 +737,7 @@
         <option value="SE">Sergipe</option>
         <option value="TO">Tocantins</option>
       </select>
-      <span class="total">Total: 15 members</span>
+      <span class="total">Total: 14 members</span>
     </div>
 
     <div class="members-grid">
@@ -938,21 +938,7 @@
         </div>
       </div>
 
-      <div class="member-card" data-state="SP">
-        <img src="assets/members/marcusgioscia.jpg" alt="Marcus Gioscia" class="photo">
-        <h3>Marcus Gioscia</h3>
-        <div class="location">São Paulo, SP, Brazil</div>
-        <div class="tags">
-          <span class="tag">Golden Jacket</span>
-          <span class="tag">Member</span>
-        </div>
-        <div class="certified">Certified on 2024-02-05</div>
-        <div class="socials">
-          <a href="https://www.linkedin.com/in/marcus-paulo-gioscia/" target="_blank">in</a>
-        </div>
-      </div>
-
-    </div>
+      
   </section>
 
   <section<section id="events" style="padding:60px 20px;text-align:center;">
@@ -1027,63 +1013,6 @@
 
     function filterByState(state){
       document.getElementById('stateFilter').value=state;
-      var cards=document.querySelectorAll('.member-card');
-      cards.forEach(function(card){
-        if(state==='All'||!card.dataset.state||card.dataset.state===state){
-          card.style.display='';
-        }else{
-          card.style.display='none';
-        }
-      });
-      document.getElementById('members').scrollIntoView({behavior:'smooth'});
-    }
-
-    // Animated counter
-    function animateCount(el,target){
-      var isPlus=target.toString().includes('+');
-      var num=parseInt(target);
-      var duration=1500;
-      var start=0;
-      var startTime=null;
-      function step(ts){
-        if(!startTime)startTime=ts;
-        var p=Math.min((ts-startTime)/duration,1);
-        var ease=1-Math.pow(1-p,3);
-        el.textContent=Math.floor(ease*num)+(isPlus?'+':'');
-        if(p<1)requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-
-    // Fade in cards on scroll
-    var observer=new IntersectionObserver(function(entries){
-      entries.forEach(function(e,i){
-        if(e.isIntersecting){
-          setTimeout(function(){e.target.classList.add('visible');},i*100);
-          observer.unobserve(e.target);
-        }
-      });
-    },{threshold:0.1});
-    document.querySelectorAll('.member-card').forEach(function(c){observer.observe(c);});
-
-    // Animate stats on scroll
-    var statsObserver=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          e.target.querySelectorAll('.num').forEach(function(n){animateCount(n,n.textContent);});
-          statsObserver.unobserve(e.target);
-        }
-      });
-    },{threshold:0.5});
-    var sb=document.querySelector('.stats-bar');
-    if(sb)statsObserver.observe(sb);
-  </script>
-
-<div class="chat-box" id="chatBox">
-  <div class="chat-header">
-    🤖 GJ Bot <button onclick="toggleChat()">✕</button>
-  </div>
-  <div class="chat-messages" id="chatMessages">
     <div class="chat-msg bot"><span>Hi! 👋 I'm the GJ Bot. How can I help you?</span></div>
   </div>
   <div class="chat-options" id="chatOptions">
