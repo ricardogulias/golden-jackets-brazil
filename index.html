@@ -218,7 +218,9 @@
     .member-card.founder { box-shadow: 0 0 20px rgba(255,215,0,0.1); }
     .member-card.cofounder::before { background: linear-gradient(var(--angle, 0deg), #DAA520, #8B6914, #DAA520); animation: rotateBorder 4s linear infinite; }
     .member-card.cofounder { box-shadow: 0 0 15px rgba(218,165,32,0.08); }
-    .member-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 25px rgba(255,215,0,0.15); }
+    .member-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 8px 40px rgba(255,215,0,0.25); border-color: rgba(255,215,0,0.5); }
+    .member-card:hover .photo { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+    .member-card .photo { transition: transform 0.3s, box-shadow 0.3s; }
     .member-card { opacity: 0; transform: translateY(30px); transition: all 0.5s ease; }
     .member-card.visible { opacity: 1; transform: translateY(0); }
     .member-card .photo {
