@@ -53,7 +53,7 @@
 
     .lang-toggle {
       cursor: pointer; background: none; border: 1px solid var(--border); border-radius: 8px;
-      padding: 6px 10px; font-size: 0.8em; font-weight: 700; transition: all 0.3s; color: var(--text);
+      padding: 6px 10px; font-size: 1.1em; transition: all 0.3s; color: var(--text);
     }
     .lang-toggle:hover { border-color: var(--gold); }
 
@@ -1059,7 +1059,12 @@ function applyLang() {
   }
 }
 
-if (currentLang === 'pt') { window.addEventListener('DOMContentLoaded', applyLang); }
+if (currentLang === 'pt') {
+  window.addEventListener('DOMContentLoaded', function() {
+    applyLang();
+    document.querySelectorAll('.lang-toggle').forEach(function(b) { b.textContent = '🇺🇸'; });
+  });
+}
 
 function toggleTheme() {
   document.body.classList.toggle('light');
