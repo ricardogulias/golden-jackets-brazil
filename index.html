@@ -932,12 +932,12 @@ function toggleTheme() {
   document.body.classList.toggle('light');
   const btn = document.querySelector('.theme-toggle');
   const isLight = document.body.classList.contains('light');
-  btn.textContent = isLight ? '🌑' : '🌙';
+  btn.textContent = isLight ? '☀️' : '🌙';
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 if (localStorage.getItem('theme') === 'light') {
   document.body.classList.add('light');
-  document.querySelector('.theme-toggle').textContent = '🌑';
+  document.querySelector('.theme-toggle').textContent = '☀️';
 }
 </script>
 </body>
