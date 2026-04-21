@@ -66,26 +66,14 @@
 
     .chat-btn {
       position: fixed; bottom: 20px; right: 20px; z-index: 999; width: 56px; height: 56px;
-      border-radius: 50%; background: var(--bg2); border: none; cursor: pointer;
-      font-size: 1.5em; box-shadow: 0 0 25px rgba(255,215,0,0.15); transition: all 0.3s;
-      position: fixed; /* for ::before */
+      border-radius: 50%; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; cursor: pointer;
+      font-size: 1.5em; box-shadow: 0 0 25px rgba(255,215,0,0.3); transition: all 0.3s;
     }
-    .chat-btn::before {
-      content: ''; position: absolute; inset: -2px; border-radius: 50%; z-index: -1;
-      background: linear-gradient(var(--angle, 0deg), #FFD700, #B8860B, #FFD700);
-      animation: rotateBorder 3s linear infinite;
-    }
-    .chat-btn:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,215,0,0.3); }
+    .chat-btn:hover { transform: scale(1.1); box-shadow: 0 0 35px rgba(255,215,0,0.5); }
     .chat-box {
       display: none; position: fixed; bottom: 90px; right: 20px; z-index: 999;
-      width: 320px; max-height: 420px; background: var(--bg2); border: 1px solid transparent;
-      border-radius: 12px; box-shadow: 0 0 25px rgba(255,215,0,0.15); flex-direction: column; overflow: hidden;
-      background-clip: padding-box;
-    }
-    .chat-box::before {
-      content: ''; position: absolute; inset: -2px; border-radius: 14px; z-index: -1;
-      background: linear-gradient(var(--angle, 0deg), #FFD700, #B8860B, #FFD700);
-      animation: rotateBorder 3s linear infinite;
+      width: 320px; max-height: 420px; background: var(--bg2); border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.4); flex-direction: column; overflow: hidden;
     }
     .chat-box.open { display: flex; }
     .chat-header {
