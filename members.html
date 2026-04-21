@@ -52,6 +52,29 @@
     <input type="password" id="loginPass" placeholder="Password">
     <button onclick="signIn()">Sign In</button>
     <p class="login-msg" id="loginMsg"></p>
+    <p style="margin-top:16px;font-size:0.85em;">
+      <a onclick="showForgot()" style="color:#FFD700;cursor:pointer;">Forgot password?</a>
+    </p>
+    <p style="margin-top:8px;font-size:0.8em;color:#666;">
+      Not a member yet? <a href="/#join" style="color:#FFD700;">Request access</a>
+    </p>
+  </div>
+
+  <!-- Forgot Password -->
+  <div class="login-box" id="forgotBox" style="display:none;">
+    <h2>🔑 Reset Password</h2>
+    <p>Enter your email to receive a reset code</p>
+    <input type="email" id="forgotEmail" placeholder="Email">
+    <button onclick="sendResetCode()">Send Code</button>
+    <div id="resetFields" style="display:none;margin-top:16px;">
+      <input type="text" id="resetCode" placeholder="Verification code">
+      <input type="password" id="newPass" placeholder="New password">
+      <button onclick="confirmReset()">Reset Password</button>
+    </div>
+    <p class="login-msg" id="forgotMsg"></p>
+    <p style="margin-top:16px;font-size:0.85em;">
+      <a onclick="showLogin()" style="color:#FFD700;cursor:pointer;">← Back to login</a>
+    </p>
   </div>
 
   <!-- Content (hidden until auth) -->
@@ -186,6 +209,57 @@ function signOut() {
   sessionStorage.removeItem('gj_email');
   document.getElementById('loginBox').style.display = 'block';
   document.getElementById('content').style.display = 'none';
+}
+
+function showForgot() {
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('forgotBox').style.display = 'block';
+}
+
+function showLogin() {
+  document.getElementById('forgotBox').style.display = 'none';
+  document.getElementById('loginBox').style.display = 'block';
+}
+
+async function sendResetCode() {
+  var email = document.getElementById('forgotEmail').value;
+  var msg = document.getElementById('forgotMsg');
+  msg.innerHTML = '<span style="color:#FFD700">Sending code...</span>';
+  try {
+    await fetch('https://cognito-idp.' + REGION + '.amazonaws.com/', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-amz-json-1.1','X-Amz-Target':'AWSCognitoIdentityProviderService.ForgotPassword'},
+      body: JSON.stringify({ClientId: CLIENT_ID, Username: email})
+    });
+    document.getElementById('resetFields').style.display = 'block';
+    msg.innerHTML = '<span style="color:#4CAF50">✅ Code sent to your email!</span>';
+  } catch(e) {
+    msg.innerHTML = '<span style="color:#f44336">❌ Error sending code</span>';
+  }
+}
+
+async function confirmReset() {
+  var email = document.getElementById('forgotEmail').value;
+  var code = document.getElementById('resetCode').value;
+  var newPass = document.getElementById('newPass').value;
+  var msg = document.getElementById('forgotMsg');
+  msg.innerHTML = '<span style="color:#FFD700">Resetting...</span>';
+  try {
+    var resp = await fetch('https://cognito-idp.' + REGION + '.amazonaws.com/', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-amz-json-1.1','X-Amz-Target':'AWSCognitoIdentityProviderService.ConfirmForgotPassword'},
+      body: JSON.stringify({ClientId: CLIENT_ID, Username: email, ConfirmationCode: code, Password: newPass})
+    });
+    var data = await resp.json();
+    if (resp.ok) {
+      msg.innerHTML = '<span style="color:#4CAF50">✅ Password reset! You can now sign in.</span>';
+      setTimeout(showLogin, 2000);
+    } else {
+      msg.innerHTML = '<span style="color:#f44336">❌ ' + (data.message || 'Error') + '</span>';
+    }
+  } catch(e) {
+    msg.innerHTML = '<span style="color:#f44336">❌ Error resetting password</span>';
+  }
 }
 </script>
 </body>
