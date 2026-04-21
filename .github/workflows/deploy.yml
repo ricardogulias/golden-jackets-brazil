@@ -1,0 +1,34 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::800712212925:role/github-actions-deploy
+          aws-region: us-east-1
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync . s3://www.goldenjacketsbrazil.com/ \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude ".gitignore" \
+            --exclude "README.md"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E3N4417EU5IQE6 \
+            --paths "/*"
