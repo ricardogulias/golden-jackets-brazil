@@ -1183,6 +1183,17 @@
       <input type="url" id="applyLinkedin" placeholder="https://linkedin.com/in/...">
       <label>Email (for Members Lounge access)</label>
       <input type="email" id="applyEmail" placeholder="your@email.com">
+      <label>AWS Community Program (optional)</label>
+      <select id="applyProgram" style="width:100%;padding:10px 14px;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9em;font-family:inherit;">
+        <option value="">None</option>
+        <option>AWS Community Builder</option>
+        <option>AWS User Group Leader</option>
+        <option>AWS Hero</option>
+        <option>AWS Ambassador</option>
+        <option>AWS BlackBelt</option>
+      </select>
+      <label>Specialty / Category (optional)</label>
+      <input type="text" id="applyProgramCategory" placeholder="e.g. Serverless, Containers, Security">
       <label>Photo</label>
       <input type="file" id="applyPhoto" accept="image/*">
       <button onclick="submitApplication()">Submit Application</button>
