@@ -1193,7 +1193,21 @@
         <option>AWS BlackBelt</option>
       </select>
       <label>Specialty / Category (optional)</label>
-      <input type="text" id="applyProgramCategory" placeholder="e.g. Serverless, Containers, Security">
+      <select id="applyProgramCategory" style="width:100%;padding:10px 14px;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9em;font-family:inherit;">
+        <option value="">None</option>
+        <option>Serverless</option>
+        <option>Containers</option>
+        <option>Security</option>
+        <option>Networking</option>
+        <option>AI/ML</option>
+        <option>Data</option>
+        <option>DevTools</option>
+        <option>Storage</option>
+        <option>Machine Learning</option>
+        <option>Game Tech</option>
+        <option>Graviton</option>
+        <option>Community</option>
+      </select>
       <label>Photo</label>
       <input type="file" id="applyPhoto" accept="image/*">
       <button onclick="submitApplication()">Submit Application</button>
