@@ -1184,12 +1184,13 @@
       <label>Email (for Members Lounge access)</label>
       <input type="email" id="applyEmail" placeholder="your@email.com">
       <label>AWS Community Program (optional)</label>
-      <select id="applyProgram" onchange="var c=document.getElementById('applyCatWrap');var s=document.getElementById('applyProgramCategory');var cats={'AWS Community Builder':['Serverless','Containers','Security','Networking','AI/ML','Data','DevTools','Storage','Graviton'],'AWS Hero':['Community','Serverless','Container','Data','DevTools','Machine Learning','Security']};var o=cats[this.value];if(o){s.innerHTML='<option value=\x22\x22>Select category...</option>'+o.map(function(x){return '<option>'+x+'</option>'}).join('');c.style.display='block'}else{s.innerHTML='';c.style.display='none'}" style="width:100%;padding:10px 14px;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9em;font-family:inherit;">
+      <select id="applyProgram" onchange="var c=document.getElementById('applyCatWrap');var s=document.getElementById('applyProgramCategory');var cats={'AWS Community Builder':['Serverless','Containers','Security','Networking','AI/ML','Data','DevTools','Storage','Graviton'],'AWS Hero':['Community','Serverless','Container','Data','DevTools','Machine Learning','Security'],'AWS BlackBelt':['Serverless','Containers','Security','Networking','AI/ML','Data','DevTools']};var o=cats[this.value];if(o){s.innerHTML='<option value=\x22\x22>Select category...</option>'+o.map(function(x){return '<option>'+x+'</option>'}).join('');c.style.display='block'}else{s.innerHTML='';c.style.display='none'}" style="width:100%;padding:10px 14px;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9em;font-family:inherit;">
         <option value="">None</option>
         <option>AWS Community Builder</option>
         <option>AWS User Group Leader</option>
         <option>AWS Hero</option>
         <option>AWS Ambassador</option>
+        <option>AWS BlackBelt</option>
         
       </select>
       <div id="applyCatWrap" style="display:none;">
