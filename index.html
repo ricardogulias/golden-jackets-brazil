@@ -770,7 +770,7 @@
         <option value="SP">São Paulo</option>
         <option value="SE">Sergipe</option>
         <option value="TO">Tocantins</option>
-      </div>
+      </select>
       <span class="total">Total: 17 members</span>
     </div>
 
@@ -1176,23 +1176,13 @@
         <option value="BA">Bahia</option><option value="DF">Distrito Federal</option><option value="AM">Amazonas</option>
         <option value="CE">Ceará</option><option value="PE">Pernambuco</option><option value="GO">Goiás</option>
         <option value="PA">Pará</option><option value="ES">Espírito Santo</option><option value="Other">Other</option>
-      </div>
+      </select>
       <label>Certification Date</label>
       <input type="date" id="applyDate">
       <label>LinkedIn Profile URL</label>
       <input type="url" id="applyLinkedin" placeholder="https://linkedin.com/in/...">
       <label>Email (for Members Lounge access)</label>
       <input type="email" id="applyEmail" placeholder="your@email.com">
-      <label>AWS Community Programs (optional)</label>
-      <select id="applyProgram" onchange="updateCategories()" style="width:100%;padding:10px 14px;margin-bottom:6px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9em;font-family:inherit;">
-        <option value="">None</option>
-        <option>AWS Community Builder</option>
-        <option>AWS User Group Leader</option>
-        <option>AWS Hero</option>
-        <option>AWS Ambassador</option>
-        <option>AWS BlackBelt</option>
-      </div>
-      <input type="text" id="applyProgramCategory" placeholder="Categories e.g. Serverless, Containers (optional)" style="display:none;width:100%;padding:10px 14px;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9em;font-family:inherit;">
       <label>Photo</label>
       <input type="file" id="applyPhoto" accept="image/*">
       <button onclick="submitApplication()">Submit Application</button>
@@ -1309,24 +1299,6 @@
 <script>
 function toggleMusic() {
   document.getElementById('spotifyPlayer').classList.toggle('open');
-}
-
-var programCategories = {
-  'AWS Community Builder': ['Serverless','Containers','Security','Networking','AI/ML','Data','DevTools','Storage','Game Tech','Graviton'],
-  'AWS Hero': ['Community','Serverless','Container','Machine Learning','Data','DevTools','Security'],
-  'AWS BlackBelt': ['Serverless','Containers','Security','Networking','AI/ML','Data','DevTools']
-};
-
-function updateCategories() {
-  var prog = document.getElementById('applyProgram').value;
-  var catEl = document.getElementById('applyProgramCategory');
-  if (programCategories[prog]) {
-    catEl.placeholder = 'e.g. ' + programCategories[prog].slice(0,3).join(', ');
-    catEl.style.display = 'block';
-  } else {
-    catEl.value = '';
-    catEl.style.display = 'none';
-  }
 }
 
 function toggleChat() {
