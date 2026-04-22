@@ -108,6 +108,20 @@
       </div>
 
       <div class="card">
+        <span class="badge">Content</span>
+        <h3>📝 Submit Article</h3>
+        <p>Share your technical content with the community. Articles will be reviewed and published on our website.</p>
+        <br>
+        <div id="articleForm">
+          <input type="text" id="artTitle" placeholder="Article title" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
+          <input type="url" id="artUrl" placeholder="Article URL (community.aws, dev.to, etc)" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
+          <input type="text" id="artSummary" placeholder="Short summary (1-2 sentences)" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
+          <button onclick="submitArticle()" style="width:100%;padding:10px;background:linear-gradient(135deg,#FFD700,#B8860B);border:none;border-radius:6px;color:#151528;font-weight:700;cursor:pointer;">Submit for Review</button>
+          <p id="artMsg" style="margin-top:8px;font-size:0.85em;"></p>
+        </div>
+      </div>
+
+      <div class="card">
         <span class="badge">Events</span>
         <h3>📅 Internal Events</h3>
         <p>Exclusive meetups, study groups, and community calls for Golden Jacket members only.</p>
@@ -209,6 +223,32 @@ function signOut() {
   sessionStorage.removeItem('gj_email');
   document.getElementById('loginBox').style.display = 'block';
   document.getElementById('content').style.display = 'none';
+}
+
+async function submitArticle() {
+  var msg = document.getElementById('artMsg');
+  msg.innerHTML = '<span style="color:#FFD700">Submitting...</span>';
+  var author = sessionStorage.getItem('gj_email') || 'unknown';
+  try {
+    var resp = await fetch('https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/article', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        title: document.getElementById('artTitle').value,
+        url: document.getElementById('artUrl').value,
+        summary: document.getElementById('artSummary').value,
+        author: author
+      })
+    });
+    var data = await resp.json();
+    if (resp.ok) {
+      document.getElementById('articleForm').innerHTML = '<p style="color:#4CAF50;">✅ Article submitted for review! We\'ll publish it shortly.</p>';
+    } else {
+      msg.innerHTML = '<span style="color:#f44336">❌ ' + (data.error || 'Error') + '</span>';
+    }
+  } catch(e) {
+    msg.innerHTML = '<span style="color:#f44336">❌ Error submitting. Try again.</span>';
+  }
 }
 
 function showForgot() {
