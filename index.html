@@ -1192,8 +1192,7 @@
         <option>AWS Ambassador</option>
         <option>AWS BlackBelt</option>
       </div>
-      <div id="applyProgramCategory" style="display:none;margin-bottom:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:0.85em;color:var(--text-muted);">
-      </div>
+      <input type="text" id="applyProgramCategory" placeholder="Categories e.g. Serverless, Containers (optional)" style="display:none;width:100%;padding:10px 14px;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9em;font-family:inherit;">
       <label>Photo</label>
       <input type="file" id="applyPhoto" accept="image/*">
       <button onclick="submitApplication()">Submit Application</button>
@@ -1321,12 +1320,11 @@ var programCategories = {
 function updateCategories() {
   var prog = document.getElementById('applyProgram').value;
   var catEl = document.getElementById('applyProgramCategory');
-  var cats = programCategories[prog];
-  if (cats) {
-    catEl.innerHTML = cats.map(function(c) { return '<label style="display:inline-block;margin:3px 8px 3px 0;cursor:pointer;"><input type="checkbox" value="' + c + '" style="margin-right:4px;">' + c + '</label>'; }).join('');
+  if (programCategories[prog]) {
+    catEl.placeholder = 'e.g. ' + programCategories[prog].slice(0,3).join(', ');
     catEl.style.display = 'block';
   } else {
-    catEl.innerHTML = '';
+    catEl.value = '';
     catEl.style.display = 'none';
   }
 }
