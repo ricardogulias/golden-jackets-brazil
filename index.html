@@ -218,10 +218,13 @@
     .member-card.founder { box-shadow: 0 0 20px rgba(255,215,0,0.1); }
     .member-card.cofounder::before { background: linear-gradient(var(--angle, 0deg), #DAA520, #8B6914, #DAA520); animation: rotateBorder 4s linear infinite; }
     .member-card.cofounder { box-shadow: 0 0 15px rgba(218,165,32,0.08); }
-    .member-card.challenger::before { background: linear-gradient(var(--angle, 0deg), #C0C0C0, #808080, #C0C0C0); animation: rotateBorder 4s linear infinite; }
-    .member-card.challenger { box-shadow: 0 0 15px rgba(192,192,192,0.08); }
-    .member-card.challenger h3 { color: #C0C0C0; }
-    .member-card.challenger .tag { background: rgba(192,192,192,0.15); color: #C0C0C0; }
+    .member-card.challenger::before { background: linear-gradient(var(--angle, 0deg), #E8E8E8, #A8A8A8, #D0D0D0, #888888, #E8E8E8); animation: rotateBorder 4s linear infinite; }
+    .member-card.challenger { box-shadow: 0 0 20px rgba(200,200,220,0.12); }
+    .member-card.challenger h3 { color: #D4D4DC; }
+    .member-card.challenger .tag { background: linear-gradient(135deg, rgba(200,200,220,0.2), rgba(160,160,180,0.15)); color: #D4D4DC; border: 1px solid rgba(200,200,220,0.2); }
+    .member-card.challenger:hover { box-shadow: 0 8px 40px rgba(200,200,220,0.25); border-color: rgba(200,200,220,0.5); }
+    .member-card.challenger .certified { color: #A0A0B0; }
+    .member-card.challenger .location { color: #909098; }
     .member-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 8px 40px rgba(255,215,0,0.25); border-color: rgba(255,215,0,0.5); }
     .member-card:hover .photo { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,215,0,0.3); }
     .member-card .photo { transition: transform 0.3s, box-shadow 0.3s; }
@@ -1054,7 +1057,33 @@
       <label>Filter by State:</label>
       <select id="challengerStateFilter" onchange="filterChallengers()">
         <option value="All">All</option>
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espírito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
         <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
       </select>
     </div>
     <div class="members-grid">
