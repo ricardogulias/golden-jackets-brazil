@@ -737,11 +737,11 @@
       <text x="48" y="185" text-anchor="middle" fill="#666" font-size="8" font-family="Inter,Arial,sans-serif" font-weight="600" style="pointer-events:none">AC</text>
       <text x="118" y="195" text-anchor="middle" fill="#666" font-size="8" font-family="Inter,Arial,sans-serif" font-weight="600" style="pointer-events:none">RO</text>
     </svg>
-      <div class="map-pin" style="top:68%;left:62%" onclick="filterByState('SP')"><span class="pin-icon">📍</span><span class="pin-count">11</span></div>
-      <div class="map-pin" style="top:55%;left:72%" onclick="filterByState('MG')"><span class="pin-icon">📍</span><span class="pin-count">1</span></div>
-      <div class="map-pin" style="top:70%;left:82%" onclick="filterByState('RJ')"><span class="pin-icon">📍</span><span class="pin-count">1</span></div>
-      <div class="map-pin" style="top:75%;left:55%" onclick="filterByState('PR')"><span class="pin-icon">📍</span><span class="pin-count">2</span></div>
-      <div class="map-pin" style="top:88%;left:50%" onclick="filterByState('RS')"><span class="pin-icon">📍</span><span class="pin-count">1</span></div>
+      <div class="map-pin" style="top:68%;left:62%" onclick="filterByState('SP')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">11</span></div>
+      <div class="map-pin" style="top:55%;left:72%" onclick="filterByState('MG')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">1</span></div>
+      <div class="map-pin" style="top:70%;left:82%" onclick="filterByState('RJ')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">1</span></div>
+      <div class="map-pin" style="top:75%;left:55%" onclick="filterByState('PR')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">2</span><span style="color:#C0C0C0;font-size:0.6em;display:block;">⚔️ <span class="silver-count">1</span></span></div>
+      <div class="map-pin" style="top:88%;left:50%" onclick="filterByState('RS')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">1</span></div>
     </div>
   </section>
 
@@ -1050,6 +1050,13 @@
     <h2 style="font-size:1.6em;color:#C0C0C0;margin-bottom:8px;">⚔️ Challengers</h2>
     <p style="color:var(--text-muted);font-size:0.9em;margin-bottom:8px;">Professionals with 11 of 12 AWS certifications — one exam away from the Golden Jacket</p>
     <p style="color:#C0C0C0;font-size:0.75em;margin-bottom:30px;font-style:italic;">Complete your final certification to earn your Golden Jacket and unlock the Members Lounge 🏆</p>
+    <div class="filter-bar">
+      <label>Filter by State:</label>
+      <select id="challengerStateFilter" onchange="filterChallengers()">
+        <option value="All">All</option>
+        <option value="PR">Paraná</option>
+      </select>
+    </div>
     <div class="members-grid">
 
       <!-- Challenger cards go here -->
@@ -1325,6 +1332,7 @@
 
     function filterByState(state){
       document.getElementById('stateFilter').value=state;
+      document.getElementById('challengerStateFilter').value=state;
       var cards=document.querySelectorAll('.member-card');
       cards.forEach(function(card){
         if(state==='All'||!card.dataset.state||card.dataset.state===state){
@@ -1334,6 +1342,18 @@
         }
       });
       document.getElementById('members').scrollIntoView({behavior:'smooth'});
+    }
+
+    function filterChallengers(){
+      var state=document.getElementById('challengerStateFilter').value;
+      var cards=document.querySelectorAll('#challengers .member-card');
+      cards.forEach(function(card){
+        if(state==='All'||!card.dataset.state||card.dataset.state===state){
+          card.style.display='';
+        }else{
+          card.style.display='none';
+        }
+      });
     }
 
     // Animated counter
@@ -1571,18 +1591,30 @@ setInterval(updateCountdowns, 1000);
 // Auto-update map pins based on member cards
 (function() {
   var cards = document.querySelectorAll('.member-card[data-state]');
-  var counts = {};
+  var goldCounts = {};
+  var silverCounts = {};
   cards.forEach(function(c) {
     var s = c.dataset.state;
-    if (s && s !== 'ALL') counts[s] = (counts[s] || 0) + 1;
+    if (s && s !== 'ALL') {
+      if (c.classList.contains('challenger')) {
+        silverCounts[s] = (silverCounts[s] || 0) + 1;
+      } else {
+        goldCounts[s] = (goldCounts[s] || 0) + 1;
+      }
+    }
   });
   document.querySelectorAll('.map-pin').forEach(function(pin) {
     var onclick = pin.getAttribute('onclick') || '';
     var match = onclick.match(/filterByState\('(\w+)'\)/);
     if (match) {
       var state = match[1];
-      var countEl = pin.querySelector('.pin-count');
-      if (countEl && counts[state]) countEl.textContent = counts[state];
+      var goldEl = pin.querySelector('.gold-count');
+      var silverEl = pin.querySelector('.silver-count');
+      if (goldEl && goldCounts[state]) goldEl.textContent = goldCounts[state];
+      if (silverEl && silverCounts[state]) silverEl.textContent = silverCounts[state];
+      // Hide silver section if no challengers in this state
+      var silverParent = silverEl ? silverEl.parentElement : null;
+      if (silverParent) silverParent.style.display = silverCounts[state] ? '' : 'none';
     }
   });
 })();
