@@ -54,9 +54,25 @@
     <p class="login-msg" id="loginMsg"></p>
     <p style="margin-top:16px;font-size:0.85em;">
       <a onclick="showForgot()" style="color:#FFD700;cursor:pointer;">Forgot password?</a>
+      <span style="color:#444;margin:0 8px;">|</span>
+      <a onclick="showFirstLogin()" style="color:#C0C0C0;cursor:pointer;">Change Password (1st Login)</a>
     </p>
     <p style="margin-top:8px;font-size:0.8em;color:#666;">
       Not a member yet? <a href="/#join" style="color:#FFD700;">Request access</a>
+    </p>
+  </div>
+
+  <!-- First Login - Change Temp Password -->
+  <div class="login-box" id="firstLoginBox" style="display:none;">
+    <h2>🆕 First Login</h2>
+    <p>Enter your email, temporary password, and choose a new password</p>
+    <input type="email" id="firstEmail" placeholder="Email">
+    <input type="password" id="firstTempPass" placeholder="Temporary password">
+    <input type="password" id="firstNewPass" placeholder="New password">
+    <button onclick="firstLogin()">Change Password & Sign In</button>
+    <p class="login-msg" id="firstMsg"></p>
+    <p style="margin-top:16px;font-size:0.85em;">
+      <a onclick="showLogin()" style="color:#FFD700;cursor:pointer;">← Back to login</a>
     </p>
   </div>
 
@@ -253,12 +269,59 @@ async function submitArticle() {
 
 function showForgot() {
   document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('firstLoginBox').style.display = 'none';
   document.getElementById('forgotBox').style.display = 'block';
+}
+
+function showFirstLogin() {
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('forgotBox').style.display = 'none';
+  document.getElementById('firstLoginBox').style.display = 'block';
 }
 
 function showLogin() {
   document.getElementById('forgotBox').style.display = 'none';
+  document.getElementById('firstLoginBox').style.display = 'none';
   document.getElementById('loginBox').style.display = 'block';
+}
+
+async function firstLogin() {
+  var email = document.getElementById('firstEmail').value;
+  var tempPass = document.getElementById('firstTempPass').value;
+  var newPass = document.getElementById('firstNewPass').value;
+  var msg = document.getElementById('firstMsg');
+  if (!email || !tempPass || !newPass) { msg.innerHTML = '<span style="color:#f44336">Please fill all fields</span>'; return; }
+  msg.innerHTML = '<span style="color:#FFD700">Signing in...</span>';
+  try {
+    var resp = await fetch('https://cognito-idp.' + REGION + '.amazonaws.com/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-amz-json-1.1', 'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'},
+      body: JSON.stringify({AuthFlow: 'USER_PASSWORD_AUTH', ClientId: CLIENT_ID, AuthParameters: {USERNAME: email, PASSWORD: tempPass}})
+    });
+    var data = await resp.json();
+    if (data.ChallengeName === 'NEW_PASSWORD_REQUIRED') {
+      var resp2 = await fetch('https://cognito-idp.' + REGION + '.amazonaws.com/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-amz-json-1.1', 'X-Amz-Target': 'AWSCognitoIdentityProviderService.RespondToAuthChallenge'},
+        body: JSON.stringify({ChallengeName: 'NEW_PASSWORD_REQUIRED', ClientId: CLIENT_ID, ChallengeResponses: {USERNAME: email, NEW_PASSWORD: newPass}, Session: data.Session})
+      });
+      var data2 = await resp2.json();
+      if (data2.AuthenticationResult) {
+        sessionStorage.setItem('gj_token', data2.AuthenticationResult.IdToken);
+        sessionStorage.setItem('gj_email', email);
+        showContent(email);
+      } else {
+        msg.innerHTML = '<span style="color:#f44336">❌ ' + (data2.message || 'Error setting password') + '</span>';
+      }
+    } else if (data.AuthenticationResult) {
+      msg.innerHTML = '<span style="color:#4CAF50">✅ Password already changed. Use regular Sign In.</span>';
+      setTimeout(showLogin, 2000);
+    } else {
+      msg.innerHTML = '<span style="color:#f44336">❌ ' + (data.message || 'Invalid credentials') + '</span>';
+    }
+  } catch(e) {
+    msg.innerHTML = '<span style="color:#f44336">❌ Error. Try again.</span>';
+  }
 }
 
 async function sendResetCode() {
