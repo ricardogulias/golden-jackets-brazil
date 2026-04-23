@@ -1399,8 +1399,8 @@
       
       if(!name||!email){s.innerHTML='<span style="color:#f44336">Please fill in name and email</span>';return;}
       s.innerHTML='<span style="color:var(--gold)">Sending...</span>';
-      fetch('https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/apply',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({name:'SPONSOR: '+name,city:company,state:'SP',date:email,linkedin:'Sponsor inquiry',email:email})
+      fetch('https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/sponsor',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name:name,company:company,email:email})
       }).then(function(){
         var n=document.getElementById('sponsorName').value;var e=document.getElementById('sponsorEmail').value;document.getElementById('sponsorForm').innerHTML='<p style="color:#4CAF50;font-size:1.1em;margin-bottom:8px;">✅ Thank you, '+n+'!</p><p style="color:var(--text-muted);font-size:0.9em;">We received your interest and our team will reach out to <strong>'+e+'</strong> within 48 hours with our sponsorship options.</p><p style="color:var(--gold);font-size:0.85em;margin-top:12px;">Golden Jackets Brazil 🏆</p>';
       }).catch(function(){
