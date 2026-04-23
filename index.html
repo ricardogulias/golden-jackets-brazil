@@ -221,7 +221,7 @@
     .member-card.challenger::before { background: linear-gradient(var(--angle, 0deg), #E8E8E8, #A8A8A8, #D0D0D0, #888888, #E8E8E8); animation: rotateBorder 4s linear infinite; }
     .member-card.challenger { box-shadow: 0 0 20px rgba(200,200,220,0.12); }
     .member-card.challenger h3 { color: #D4D4DC; }
-    .member-card.challenger .tag { background: linear-gradient(135deg, rgba(200,200,220,0.2), rgba(160,160,180,0.15)); color: #D4D4DC; border: 1px solid rgba(200,200,220,0.2); }
+    .member-card.challenger .tag { background: linear-gradient(135deg, #D4D4DC, #909098); color: #151528; font-weight: 700; }
     .member-card.challenger:hover { box-shadow: 0 8px 40px rgba(200,200,220,0.25); border-color: rgba(200,200,220,0.5); }
     .member-card.challenger .certified { color: #A0A0B0; }
     .member-card.challenger .location { color: #909098; }
@@ -740,11 +740,11 @@
       <text x="48" y="185" text-anchor="middle" fill="#666" font-size="8" font-family="Inter,Arial,sans-serif" font-weight="600" style="pointer-events:none">AC</text>
       <text x="118" y="195" text-anchor="middle" fill="#666" font-size="8" font-family="Inter,Arial,sans-serif" font-weight="600" style="pointer-events:none">RO</text>
     </svg>
-      <div class="map-pin" style="top:68%;left:62%" onclick="filterByState('SP')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">11</span></div>
-      <div class="map-pin" style="top:55%;left:72%" onclick="filterByState('MG')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">1</span></div>
-      <div class="map-pin" style="top:70%;left:82%" onclick="filterByState('RJ')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">1</span></div>
-      <div class="map-pin" style="top:75%;left:55%" onclick="filterByState('PR')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">2</span><span style="color:#C0C0C0;font-size:0.6em;display:block;">⚔️ <span class="silver-count">1</span></span></div>
-      <div class="map-pin" style="top:88%;left:50%" onclick="filterByState('RS')"><span class="pin-icon" style="color:#FFD700;">📍</span><span class="pin-count gold-count">1</span></div>
+      <div class="map-pin" style="top:68%;left:62%" onclick="filterByState('SP')"><span class="pin-icon"><svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0C4.5 0 0 4.5 0 10c0 7.5 10 18 10 18s10-10.5 10-18C20 4.5 15.5 0 10 0z" fill="#FFD700"/><circle cx="10" cy="10" r="4" fill="#151528"/></svg></span><span class="pin-count gold-count">11</span></div>
+      <div class="map-pin" style="top:55%;left:72%" onclick="filterByState('MG')"><span class="pin-icon"><svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0C4.5 0 0 4.5 0 10c0 7.5 10 18 10 18s10-10.5 10-18C20 4.5 15.5 0 10 0z" fill="#FFD700"/><circle cx="10" cy="10" r="4" fill="#151528"/></svg></span><span class="pin-count gold-count">1</span></div>
+      <div class="map-pin" style="top:70%;left:82%" onclick="filterByState('RJ')"><span class="pin-icon"><svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0C4.5 0 0 4.5 0 10c0 7.5 10 18 10 18s10-10.5 10-18C20 4.5 15.5 0 10 0z" fill="#FFD700"/><circle cx="10" cy="10" r="4" fill="#151528"/></svg></span><span class="pin-count gold-count">1</span></div>
+      <div class="map-pin" style="top:75%;left:55%" onclick="filterByState('PR')"><span class="pin-icon"><svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0C4.5 0 0 4.5 0 10c0 7.5 10 18 10 18s10-10.5 10-18C20 4.5 15.5 0 10 0z" fill="#FFD700"/><circle cx="10" cy="10" r="4" fill="#151528"/></svg></span><span class="pin-count gold-count">2</span><span style="display:block;margin-top:2px;"><svg width="16" height="22" viewBox="0 0 20 28"><path d="M10 0C4.5 0 0 4.5 0 10c0 7.5 10 18 10 18s10-10.5 10-18C20 4.5 15.5 0 10 0z" fill="#C0C0C0"/><circle cx="10" cy="10" r="4" fill="#151528"/></svg> <span class="silver-count" style="font-size:0.6em;color:#C0C0C0;">1</span></span></div>
+      <div class="map-pin" style="top:88%;left:50%" onclick="filterByState('RS')"><span class="pin-icon"><svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0C4.5 0 0 4.5 0 10c0 7.5 10 18 10 18s10-10.5 10-18C20 4.5 15.5 0 10 0z" fill="#FFD700"/><circle cx="10" cy="10" r="4" fill="#151528"/></svg></span><span class="pin-count gold-count">1</span></div>
     </div>
   </section>
 
