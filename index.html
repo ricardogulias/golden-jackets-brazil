@@ -1139,16 +1139,22 @@
       var badge=c.querySelector('span[style*="gradient"]');
       if(badge){var n=badge.textContent.trim();count[n]=(count[n]||0)+1;}
     });
-    var top=Object.keys(count).reduce(function(a,b){return count[a]>=count[b]?a:b;},'');
-    if(top&&count[top]>0){
-      cards.forEach(function(c){
-        var badge=c.querySelector('span[style*="gradient"]');
-        if(badge&&badge.textContent.trim()===top&&!badge.dataset.crowned){
-          badge.insertAdjacentHTML('afterend',' <span style="font-size:1.1em;">👑</span>');
-          badge.dataset.crowned='1';
-        }
-      });
+    var sorted=Object.entries(count).sort(function(a,b){return b[1]-a[1];});
+    var medals={};
+    if(sorted[0])medals[sorted[0][0]]='🥇';
+    if(sorted[1]&&sorted[1][1]!==sorted[0][1])medals[sorted[1][0]]='🥈';
+    else if(sorted[1])medals[sorted[1][0]]='🥇';
+    if(sorted[2]){
+      var m=sorted[2][1]===sorted[0][1]?'🥇':sorted[2][1]===sorted[1][1]?medals[sorted[1][0]]:'🥉';
+      medals[sorted[2][0]]=m;
     }
+    cards.forEach(function(c){
+      var badge=c.querySelector('span[style*="gradient"]');
+      if(badge&&medals[badge.textContent.trim()]&&!badge.dataset.medal){
+        badge.insertAdjacentHTML('afterend',' <span style="font-size:1.1em;">'+medals[badge.textContent.trim()]+'</span>');
+        badge.dataset.medal='1';
+      }
+    });
   })();
   </script>
 
