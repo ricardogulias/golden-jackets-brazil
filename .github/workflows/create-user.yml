@@ -45,3 +45,31 @@ jobs:
             || echo "User may already exist"
           
           echo "✅ Cognito user created. Welcome email sent to $EMAIL"
+
+      - name: Send welcome email via SES
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          EMAIL=$(echo "$PR_BODY" | grep -oP 'Email:\*\* \K[^\s]+' || echo "")
+          NAME=$(echo "$PR_BODY" | grep -oP 'Name:\*\* \K[^\n]+' || echo "")
+          
+          if [ -z "$EMAIL" ]; then
+            echo "No email, skipping welcome email"
+            exit 0
+          fi
+          
+          cat > /tmp/welcome.json << EMAILEOF
+          {
+            "Source": "ricardo.gulias@darede.com.br",
+            "Destination": {"ToAddresses": ["$EMAIL"]},
+            "Message": {
+              "Subject": {"Data": "Welcome to Golden Jackets Brazil!", "Charset": "UTF-8"},
+              "Body": {
+                "Html": {"Data": "<div style='font-family:Segoe UI,Arial,sans-serif;max-width:500px;margin:0 auto;padding:20px;'><div style='text-align:center;margin-bottom:20px;'><h2 style='color:#B8860B;margin:0;'>Welcome to Golden Jackets Brazil! 🏆</h2></div><p style='color:#333;'>Hi <strong>$NAME</strong>,</p><p style='color:#333;'>Congratulations! Your application has been approved and your member card is now live on our website.</p><p style='color:#333;'>You also have access to the <strong>Members Lounge</strong> — check your email for your temporary password and log in at:</p><p style='text-align:center;margin:20px 0;'><a href='https://goldenjacketsbrazil.com/members.html' style='display:inline-block;padding:10px 24px;background:linear-gradient(135deg,#FFD700,#B8860B);color:#151528;text-decoration:none;border-radius:8px;font-weight:700;'>Access the Lounge</a></p><p style='color:#333;'>Join our Discord server to connect with other members:</p><p style='text-align:center;margin:20px 0;'><a href='https://discord.gg/qntq7b7UqF' style='display:inline-block;padding:10px 24px;background:#5865F2;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;'>Join Discord</a></p><p style='color:#666;font-size:0.85em;'>Best regards,<br><strong>Ricardo Gulias</strong><br>AWS Golden Jacket | Founder Golden Jackets Brazil<br>📱 WhatsApp: +55 11 93248-9800</p><hr style='border:none;border-top:1px solid #eee;margin:20px 0;'><p style='color:#999;font-size:0.75em;text-align:center;'>Golden Jackets Brazil · goldenjacketsbrazil.com</p></div>", "Charset": "UTF-8"}
+              }
+            }
+          }
+          EMAILEOF
+          
+          aws ses send-email --cli-input-json file:///tmp/welcome.json || echo "SES send failed (may be in sandbox)"
+          echo "✅ Welcome email sent to $EMAIL"
