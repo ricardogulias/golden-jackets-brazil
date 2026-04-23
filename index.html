@@ -218,6 +218,10 @@
     .member-card.founder { box-shadow: 0 0 20px rgba(255,215,0,0.1); }
     .member-card.cofounder::before { background: linear-gradient(var(--angle, 0deg), #DAA520, #8B6914, #DAA520); animation: rotateBorder 4s linear infinite; }
     .member-card.cofounder { box-shadow: 0 0 15px rgba(218,165,32,0.08); }
+    .member-card.challenger::before { background: linear-gradient(var(--angle, 0deg), #C0C0C0, #808080, #C0C0C0); animation: rotateBorder 4s linear infinite; }
+    .member-card.challenger { box-shadow: 0 0 15px rgba(192,192,192,0.08); }
+    .member-card.challenger h3 { color: #C0C0C0; }
+    .member-card.challenger .tag { background: rgba(192,192,192,0.15); color: #C0C0C0; }
     .member-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 8px 40px rgba(255,215,0,0.25); border-color: rgba(255,215,0,0.5); }
     .member-card:hover .photo { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,215,0,0.3); }
     .member-card .photo { transition: transform 0.3s, box-shadow 0.3s; }
@@ -344,6 +348,7 @@
       <a href="#members">Members</a>
       <a href="#about">About</a>
       <a href="#articles">Articles</a>
+      <a href="#challengers">Challengers</a>
       <a href="#events">Events</a>
       <a href="/members.html" style="background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.4);padding:6px 14px;border-radius:20px;color:#FFD700;font-weight:700;">Lounge 🔒</a>
       <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
@@ -356,6 +361,7 @@
     <a href="#members" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Members</a>
     <a href="#about" onclick="document.querySelector('.mobile-menu').classList.remove('open')">About</a>
     <a href="#articles" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Articles</a>
+    <a href="#challengers" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Challengers</a>
     <a href="#events" onclick="document.querySelector('.mobile-menu').classList.remove('open')">Events</a>
     <a href="/members.html" style="background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.4);padding:6px 14px;border-radius:20px;color:#FFD700;font-weight:700;">Lounge 🔒</a>
       <a href="https://lnkd.in/duqvaGdp" target="_blank">LinkedIn</a>
@@ -1020,6 +1026,18 @@
           <a href="https://www.linkedin.com/in/paulo-vianna-da-rosa-aaa07432/" target="_blank">in</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Challengers Section -->
+  <section id="challengers" style="padding:60px 20px;text-align:center;">
+    <h2 style="font-size:1.6em;color:#C0C0C0;margin-bottom:8px;">⚔️ Challengers</h2>
+    <p style="color:var(--text-muted);font-size:0.9em;margin-bottom:8px;">Professionals with 11 of 12 AWS certifications — one exam away from the Golden Jacket</p>
+    <p style="color:#C0C0C0;font-size:0.75em;margin-bottom:30px;font-style:italic;">Complete your final certification to earn your Golden Jacket and unlock the Members Lounge 🏆</p>
+    <div class="members-grid" style="max-width:1200px;margin:0 auto;">
+
+      <!-- Challenger cards go here -->
+
     </div>
   </section>
 
