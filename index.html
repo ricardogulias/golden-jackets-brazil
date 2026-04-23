@@ -1396,11 +1396,11 @@
       var name=document.getElementById('sponsorName').value;
       var company=document.getElementById('sponsorCompany').value;
       var email=document.getElementById('sponsorEmail').value;
-      var msg=document.getElementById('sponsorMsg').value;
+      
       if(!name||!email){s.innerHTML='<span style="color:#f44336">Please fill in name and email</span>';return;}
       s.innerHTML='<span style="color:var(--gold)">Sending...</span>';
       fetch('https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/apply',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({name:'SPONSOR: '+name,city:company,state:'SP',date:email,linkedin:msg||'No message',email:email})
+        body:JSON.stringify({name:'SPONSOR: '+name,city:company,state:'SP',date:email,linkedin:'Sponsor inquiry',email:email})
       }).then(function(){
         document.getElementById('sponsorForm').innerHTML='<p style="color:#4CAF50;font-size:1.1em;">✅ Thank you! We\'ll be in touch soon.</p>';
       }).catch(function(){
