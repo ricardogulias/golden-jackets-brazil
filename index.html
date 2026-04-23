@@ -1144,7 +1144,7 @@
       cards.forEach(function(c){
         var badge=c.querySelector('span[style*="gradient"]');
         if(badge&&badge.textContent.trim()===top&&!badge.dataset.crowned){
-          badge.innerHTML='👑 '+badge.innerHTML;
+          badge.insertAdjacentHTML('afterend',' <span style="font-size:1.1em;">👑</span>');
           badge.dataset.crowned='1';
         }
       });
