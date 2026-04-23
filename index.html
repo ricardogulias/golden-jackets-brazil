@@ -1246,9 +1246,17 @@
   <section id="sponsors" style="padding:50px 20px;text-align:center;">
     <h2 style="font-size:1.6em;color:var(--gold);margin-bottom:8px;">Sponsors & Partners</h2>
     <p style="color:var(--text-muted);font-size:0.9em;margin-bottom:24px;">Interested in supporting Golden Jackets Brazil?</p>
-    <div style="max-width:500px;margin:0 auto;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:24px;">
-      <p style="color:var(--text);font-size:0.95em;line-height:1.7;margin-bottom:16px;">We're looking for partners who share our mission of empowering cloud professionals in Brazil. Sponsor the community and connect with the most certified AWS professionals in the country.</p>
-      <a href="mailto:ricardo.gulias@darede.com.br?subject=Golden Jackets Brazil - Sponsorship" style="display:inline-block;padding:10px 24px;background:linear-gradient(135deg,#FFD700,#B8860B);color:#151528;text-decoration:none;border-radius:8px;font-weight:700;font-size:0.9em;">Get in Touch →</a>
+    <div style="max-width:550px;margin:0 auto;position:relative;border:1px solid transparent;border-radius:16px;background-clip:padding-box;padding:30px;">
+      <div style="position:absolute;inset:-2px;border-radius:18px;z-index:-1;background:linear-gradient(var(--angle,0deg),#FFD700,#B8860B,#FFD700);animation:rotateBorder 3s linear infinite;"></div>
+      <p style="color:var(--text);font-size:1em;line-height:1.7;margin-bottom:20px;">We're looking for partners who share our mission of empowering cloud professionals in Brazil. Sponsor the community and connect with the most certified AWS professionals in the country.</p>
+      <div id="sponsorForm">
+        <input type="text" id="sponsorName" placeholder="Your name" style="width:100%;padding:10px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;">
+        <input type="text" id="sponsorCompany" placeholder="Company" style="width:100%;padding:10px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;">
+        <input type="email" id="sponsorEmail" placeholder="Email" style="width:100%;padding:10px;margin-bottom:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;">
+        <textarea id="sponsorMsg" placeholder="How would you like to support us?" rows="3" style="width:100%;padding:10px;margin-bottom:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;resize:vertical;"></textarea>
+        <button onclick="submitSponsor()" style="width:100%;padding:12px;background:linear-gradient(135deg,#FFD700,#B8860B);border:none;border-radius:8px;color:#151528;font-weight:700;font-size:0.95em;cursor:pointer;">Send Interest →</button>
+        <p id="sponsorStatus" style="margin-top:10px;font-size:0.85em;"></p>
+      </div>
     </div>
   </section>
 
@@ -1381,6 +1389,23 @@
         }
       });
       document.getElementById('members').scrollIntoView({behavior:'smooth'});
+    }
+
+    function submitSponsor(){
+      var s=document.getElementById('sponsorStatus');
+      var name=document.getElementById('sponsorName').value;
+      var company=document.getElementById('sponsorCompany').value;
+      var email=document.getElementById('sponsorEmail').value;
+      var msg=document.getElementById('sponsorMsg').value;
+      if(!name||!email){s.innerHTML='<span style="color:#f44336">Please fill in name and email</span>';return;}
+      s.innerHTML='<span style="color:var(--gold)">Sending...</span>';
+      fetch('https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/apply',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name:'SPONSOR: '+name,city:company,state:'SP',date:email,linkedin:msg||'No message',email:email})
+      }).then(function(){
+        document.getElementById('sponsorForm').innerHTML='<p style="color:#4CAF50;font-size:1.1em;">✅ Thank you! We\'ll be in touch soon.</p>';
+      }).catch(function(){
+        s.innerHTML='<span style="color:#f44336">Error sending. Try again.</span>';
+      });
     }
 
     function filterChallengers(){
