@@ -156,7 +156,7 @@
     #brazil-map .circle { display: none; }
     .map-pin { position: absolute; transform: translate(-50%,-100%); cursor: pointer; transition: transform 0.2s; text-align: center; }
     .map-pin:hover { transform: translate(-50%,-100%) scale(1.2); }
-    .map-pin .pin-icon { font-size: 1.6em; }
+    .map-pin .pin-icon { font-size: 1.6em; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
     .map-pin .pin-count { display: block; font-size: 0.65em; color: var(--text); font-weight: 700; margin-top: -2px; }
     @keyframes pinPulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(255,215,0,0.4); } 50%{ box-shadow: 0 0 0 8px rgba(255,215,0,0); } }
 
@@ -740,12 +740,11 @@
       <text x="48" y="185" text-anchor="middle" fill="#666" font-size="8" font-family="Inter,Arial,sans-serif" font-weight="600" style="pointer-events:none">AC</text>
       <text x="118" y="195" text-anchor="middle" fill="#666" font-size="8" font-family="Inter,Arial,sans-serif" font-weight="600" style="pointer-events:none">RO</text>
     </svg>
-      <div class="map-pin" style="top:71%;left:62%" onclick="filterByState('SP')"><span class="pin-icon">📍</span><span class="pin-count gold-count" style="color:#FFD700;">11</span></div>
-      <div class="map-pin" style="top:61%;left:72%" onclick="filterByState('MG')"><span class="pin-icon">📍</span><span class="pin-count gold-count" style="color:#FFD700;">1</span></div>
-      <div class="map-pin" style="top:70%;left:82%" onclick="filterByState('RJ')"><span class="pin-icon">📍</span><span class="pin-count gold-count" style="color:#FFD700;">1</span></div>
-      <div class="map-pin" style="top:79%;left:55%" onclick="filterByState('PR')"><span class="pin-icon">📍</span><span class="pin-count gold-count" style="color:#FFD700;">2</span></div>
-      <div class="map-pin" style="top:83%;left:55%" onclick="filterByState('PR')"><span class="pin-icon" style="font-size:1.2em;opacity:0.7;">📍</span><span class="pin-count silver-count" style="color:#C0C0C0;">1</span></div>
-      <div class="map-pin" style="top:90%;left:50%" onclick="filterByState('RS')"><span class="pin-icon">📍</span><span class="pin-count gold-count" style="color:#FFD700;">1</span></div>
+      <div class="map-pin" style="top:71%;left:62%" onclick="filterByState('SP')"><span class="pin-icon">📍</span><span class="pin-count gold-count">11</span></div>
+      <div class="map-pin" style="top:61%;left:72%" onclick="filterByState('MG')"><span class="pin-icon">📍</span><span class="pin-count gold-count">1</span></div>
+      <div class="map-pin" style="top:70%;left:82%" onclick="filterByState('RJ')"><span class="pin-icon">📍</span><span class="pin-count gold-count">1</span></div>
+      <div class="map-pin" style="top:79%;left:55%" onclick="filterByState('PR')"><span class="pin-icon">📍</span><span class="pin-count gold-count">2</span><span style="display:block;font-size:0.55em;color:#C0C0C0;margin-top:1px;">⚔️ <span class="silver-count">1</span></span></div>
+      <div class="map-pin" style="top:90%;left:50%" onclick="filterByState('RS')"><span class="pin-icon">📍</span><span class="pin-count gold-count">1</span></div>
     </div>
   </section>
 
