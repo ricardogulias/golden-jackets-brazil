@@ -1131,6 +1131,26 @@
       </div>
     </div>
   </section>
+  <script>
+  (function(){
+    var cards=document.querySelectorAll('#articles [style*="background:var(--bg2)"]');
+    var count={};
+    cards.forEach(function(c){
+      var badge=c.querySelector('span[style*="gradient"]');
+      if(badge){var n=badge.textContent.trim();count[n]=(count[n]||0)+1;}
+    });
+    var top=Object.keys(count).reduce(function(a,b){return count[a]>=count[b]?a:b;},'');
+    if(top&&count[top]>0){
+      cards.forEach(function(c){
+        var badge=c.querySelector('span[style*="gradient"]');
+        if(badge&&badge.textContent.trim()===top&&!badge.dataset.crowned){
+          badge.innerHTML='👑 '+badge.innerHTML;
+          badge.dataset.crowned='1';
+        }
+      });
+    }
+  })();
+  </script>
 
     <h2 style="color:var(--gold);font-size:1.6em;margin-bottom:20px;text-align:center;margin-top:50px;">Frequently Asked Questions</h2>
       <div style="margin-bottom:16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;">
