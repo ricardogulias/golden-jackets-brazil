@@ -50,6 +50,8 @@
     <a onclick="deleteUser()" style="color:#f44336;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">🗑️ Delete</a>
     <a href="https://github.com/ricardogulias/golden-jackets-brazil/pulls" target="_blank" style="color:#FFD700;text-decoration:none;font-size:0.8em;margin-left:12px;">🔀 PRs</a>
     <a href="https://github.com/ricardogulias/golden-jackets-brazil/actions" target="_blank" style="color:#FFD700;text-decoration:none;font-size:0.8em;margin-left:12px;">🚀 Deploy</a>
+    <a onclick="backupStatus()" style="color:#4CAF50;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">💾 Backup</a>
+    <a onclick="restoreBackup()" style="color:#ff9800;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">♻️ Restore</a>
   </div>
 
   <!-- Login -->
@@ -496,6 +498,27 @@ async function createUser() {
   msg.innerHTML = '<span style="color:#4CAF50;">✅ ' + data.message + '</span>';
   document.getElementById('newUserName').value = '';
   document.getElementById('newUserEmail').value = '';
+}
+
+async function backupStatus() {
+  var data = await adminCall('backup-status');
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  if (data.jobs && data.jobs.length > 0) {
+    var h = '<strong style="color:#4CAF50;">💾 Backup Jobs:</strong><br><br>';
+    data.jobs.forEach(function(j){ h += j.status + ' | ' + j.resource + ' | ' + j.date + '<br>'; });
+    out.innerHTML = h;
+  } else {
+    out.innerHTML = '<span style="color:#FFD700;">No backup jobs found yet. Backups run daily at 5AM UTC.</span>';
+  }
+}
+
+async function restoreBackup() {
+  if (!confirm('Restore site from latest backup? This will overwrite current S3 content.')) return;
+  var data = await adminCall('restore-backup');
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  out.innerHTML = '<strong style="color:#4CAF50;">✅ ' + data.message + '</strong>';
 }
 
 async function deleteUser() {
