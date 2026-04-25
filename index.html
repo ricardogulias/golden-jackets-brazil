@@ -1871,6 +1871,39 @@ setInterval(updateCountdowns, 1000);
   });
 })();
 </script>
+<script>
+// Dynamic counters - auto-count cards, never hardcode again
+(function(){
+  var golden = document.querySelectorAll('#members .member-card:not(.challenger)').length;
+  var challengers = document.querySelectorAll('#challengers .member-card.challenger').length;
+  var total = golden + challengers;
+  var certs = (golden * 12) + (challengers * 11);
+  var states = new Set();
+  document.querySelectorAll('.member-card[data-state]').forEach(function(c){ states.add(c.dataset.state); });
+
+  // Update stats bar
+  document.querySelectorAll('.stat .num').forEach(function(el){
+    var label = el.nextElementSibling;
+    if(label && label.textContent === 'Members') el.textContent = total;
+    if(label && label.textContent === 'Certifications') el.textContent = certs + '+';
+    if(label && label.textContent === 'States') el.textContent = states.size;
+  });
+
+  // Update ticker
+  document.querySelectorAll('.ticker-content span').forEach(function(s){
+    if(s.textContent.match(/🏆 \d+ Members/)) s.textContent = '🏆 ' + total + ' Members';
+    if(s.textContent.match(/📜 \d+\+? Certifications/)) s.textContent = '📜 ' + certs + '+ Certifications';
+    if(s.textContent.match(/📍 \d+ States/)) s.textContent = '📍 ' + states.size + ' States';
+  });
+
+  // Update total in filter bar
+  var totalSpan = document.querySelector('#members .total');
+  if(totalSpan) totalSpan.textContent = 'Total: ' + golden + ' members';
+
+  var challTotal = document.querySelector('#challengers .total');
+  if(challTotal) challTotal.textContent = 'Total: ' + challengers + ' challengers';
+})();
+</script>
 </body>
 <!-- v1.1 -->
 </html>
