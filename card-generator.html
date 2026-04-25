@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GJ Brazil - Member Card Generator</title>
+<style>
+  body { background:#0a0a1a; font-family:'Segoe UI',sans-serif; display:flex; flex-direction:column; align-items:center; padding:40px; color:#fff; }
+  .controls { margin-bottom:30px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:600px; }
+  .controls input, .controls select { padding:8px 12px; background:#1a1a30; border:1px solid #333; border-radius:6px; color:#fff; font-size:0.9em; }
+  .controls input { width:200px; }
+  .controls button { padding:8px 20px; background:linear-gradient(135deg,#FFD700,#B8860B); border:none; border-radius:6px; color:#151528; font-weight:700; cursor:pointer; }
+  .card { width:500px; height:500px; background:linear-gradient(135deg,#151528 0%,#1a1a35 50%,#151528 100%); border-radius:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .card::before { content:''; position:absolute; inset:-2px; border-radius:22px; background:linear-gradient(135deg,#FFD700,#B8860B,#FFD700); z-index:-1; }
+  .card-inner { display:flex; flex-direction:column; align-items:center; padding:30px; }
+  .logo { position:absolute; top:20px; left:20px; font-size:1.2em; font-weight:800; }
+  .logo span { color:#FFD700; }
+  .logo small { color:#888; font-size:0.6em; font-weight:400; }
+  .badge-welcome { position:absolute; top:16px; right:20px; background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.3); padding:4px 12px; border-radius:12px; color:#FFD700; font-size:0.7em; font-weight:600; }
+  .photo { width:120px; height:120px; border-radius:50%; border:3px solid #FFD700; object-fit:cover; margin-bottom:16px; margin-top:20px; }
+  .name { font-size:1.6em; font-weight:800; color:#fff; margin-bottom:4px; }
+  .location { color:#888; font-size:0.85em; margin-bottom:6px; }
+  .role { color:#FFD700; font-size:0.8em; margin-bottom:4px; }
+  .certified { color:#FFD700; font-size:0.8em; margin-bottom:16px; }
+  .title { color:#ccc; font-size:0.85em; margin-bottom:16px; }
+  .tags { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:16px; }
+  .tag { background:rgba(255,215,0,0.12); border:1px solid rgba(255,215,0,0.3); padding:3px 10px; border-radius:10px; font-size:0.7em; color:#FFD700; font-weight:600; }
+  .linkedin { font-size:1.4em; }
+  .linkedin a { background:#0077B5; color:#fff; padding:4px 10px; border-radius:6px; text-decoration:none; font-size:0.6em; font-weight:700; }
+</style>
+</head>
+<body>
+<h2 style="color:#FFD700;margin-bottom:5px;">🏆 GJ Brazil — Member Card Generator</h2>
+<p style="color:#888;margin-bottom:20px;font-size:0.85em;">Fill in the details and screenshot the card below</p>
+<div class="controls">
+  <input type="text" id="name" placeholder="Full Name" oninput="update()">
+  <input type="text" id="loc" placeholder="City, State, Brazil" oninput="update()">
+  <input type="text" id="role" placeholder="Role (Founder, Member...)" oninput="update()">
+  <input type="text" id="date" placeholder="Certified on (YYYY-MM-DD)" oninput="update()">
+  <input type="text" id="title" placeholder="Title (e.g. Cloud Engineer | 12x AWS)" oninput="update()">
+  <input type="text" id="tags" placeholder="Tags (comma separated)" oninput="update()">
+  <input type="text" id="linkedin" placeholder="LinkedIn URL" oninput="update()">
+  <input type="file" id="photo" accept="image/*" onchange="loadPhoto()">
+</div>
+<div class="card" id="card">
+  <div class="logo">GJ <span>Brazil</span></div>
+  <div class="badge-welcome">Welcome! 🏆</div>
+  <div class="card-inner">
+    <img class="photo" id="cardPhoto" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect fill='%231a1a30' width='120' height='120'/%3E%3Ctext x='50%25' y='55%25' text-anchor='middle' fill='%23666' font-size='14'%3EPhoto%3C/text%3E%3C/svg%3E">
+    <div class="name" id="cardName">Member Name</div>
+    <div class="location" id="cardLoc">City, State, Brazil</div>
+    <div class="role" id="cardRole">🏆 Golden Jacket Member</div>
+    <div class="certified" id="cardDate">Certified on YYYY-MM-DD</div>
+    <div class="tags" id="cardTags"><span class="tag">Golden Jacket</span></div>
+    <div class="title" id="cardTitle">Cloud Engineer | 12x AWS Certified</div>
+    <div class="linkedin" id="cardLinkedin"><a href="#">in</a></div>
+  </div>
+</div>
+<script>
+function update() {
+  var n = document.getElementById('name').value;
+  var l = document.getElementById('loc').value;
+  var r = document.getElementById('role').value;
+  var d = document.getElementById('date').value;
+  var t = document.getElementById('title').value;
+  var tags = document.getElementById('tags').value;
+  var li = document.getElementById('linkedin').value;
+  if(n) document.getElementById('cardName').textContent = n;
+  if(l) document.getElementById('cardLoc').textContent = l;
+  if(r) document.getElementById('cardRole').textContent = '🏆 Golden Jacket ' + r;
+  if(d) document.getElementById('cardDate').textContent = 'Certified on ' + d;
+  if(t) document.getElementById('cardTitle').textContent = t;
+  if(tags) {
+    var html = tags.split(',').map(function(t){ return '<span class="tag">'+t.trim()+'</span>'; }).join('');
+    document.getElementById('cardTags').innerHTML = html;
+  }
+  if(li) document.getElementById('cardLinkedin').innerHTML = '<a href="'+li+'" target="_blank">in</a>';
+}
+function loadPhoto() {
+  var f = document.getElementById('photo').files[0];
+  if(f) { var r = new FileReader(); r.onload = function(e){ document.getElementById('cardPhoto').src = e.target.result; }; r.readAsDataURL(f); }
+}
+</script>
+</body>
+</html>
