@@ -98,6 +98,15 @@
     <nav style="background:none;border:none;padding:8px 40px;">
       <div></div>
       <div class="user-info">
+        <span id="adminButtons" style="display:none;">
+          <a onclick="listUsers()" style="color:#FFD700;">📋 Users</a>
+          <a onclick="toggleCreateForm()" style="color:#FFD700;">➕ Create</a>
+          <a onclick="resendAll()" style="color:#FFD700;">📧 Resend</a>
+          <a onclick="deleteUser()" style="color:#f44336;">🗑️ Delete</a>
+          <a href="https://github.com/ricardogulias/golden-jackets-brazil/pulls" target="_blank">🔀 PRs</a>
+          <a href="https://github.com/ricardogulias/golden-jackets-brazil/actions" target="_blank">🚀 Deploy</a>
+          <span style="color:#333;margin:0 4px;">|</span>
+        </span>
         <span id="userEmail"></span>
         <a onclick="signOut()">Sign out</a>
       </div>
@@ -195,7 +204,7 @@
           <a href="#sec-article" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">📝 Submit Article</a>
           <a href="#sec-events" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">📅 Events</a>
           <a href="#sec-brand" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">🎨 Brand Assets</a>
-          <a href="#sec-admin" onclick="toggleAdmin()" style="display:block;color:#FFD700;font-size:0.8em;padding:6px 0;text-decoration:none;font-weight:700;">⚙️ Admin</a>
+
         </div>
       </div>
     </div>
