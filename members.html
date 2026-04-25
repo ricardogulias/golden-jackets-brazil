@@ -103,54 +103,84 @@
       </div>
     </nav>
 
-    <div class="container">
-      <h1>🏆 Members Lounge</h1>
-      <p class="subtitle">Welcome, Golden Jacket! This area is exclusive to verified members.</p>
+    <div class="container" style="display:flex;gap:24px;max-width:1000px;">
+      <div style="flex:1;">
+        <h1>🏆 Members Lounge</h1>
+        <p class="subtitle">Welcome, Golden Jacket! This area is exclusive to verified members.</p>
 
-      <div class="card">
-        <span class="badge">Community</span>
-        <h3>💬 Discord Server</h3>
-        <p>Join our private Discord server to connect with other Golden Jackets, share experiences, and collaborate on initiatives.</p>
-        <br>
-        <a href="https://discord.gg/qntq7b7UqF" target="_blank">Join Discord →</a>
-      </div>
+        <div class="card" id="sec-discord">
+          <span class="badge">Community</span>
+          <h3>💬 Discord Server</h3>
+          <p>Join our private Discord server to connect with other Golden Jackets, share experiences, and collaborate on initiatives.</p>
+          <br>
+          <a href="https://discord.gg/qntq7b7UqF" target="_blank">Join Discord →</a>
+        </div>
 
-      <div class="card">
-        <span class="badge">Resources</span>
-        <h3>📚 Certification Resources</h3>
-        <p>Curated study materials, exam tips, and strategies shared by our members to help the community grow.</p>
-        <br>
-        <a href="#">Coming soon →</a>
-      </div>
+        <div class="card" id="sec-resources">
+          <span class="badge">Resources</span>
+          <h3>📚 Certification Resources</h3>
+          <p>Curated study materials, exam tips, and strategies shared by our members to help the community grow.</p>
+          <br>
+          <a href="#">Coming soon →</a>
+        </div>
 
-      <div class="card">
-        <span class="badge">Content</span>
-        <h3>📝 Submit Article</h3>
-        <p>Share your technical content with the community. Articles will be reviewed and published on our website.</p>
-        <br>
-        <div id="articleForm">
-          <input type="text" id="artTitle" placeholder="Article title" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
-          <input type="url" id="artUrl" placeholder="Article URL (community.aws, dev.to, etc)" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
-          <input type="text" id="artSummary" placeholder="Short summary (1-2 sentences)" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
-          <button onclick="submitArticle()" style="width:100%;padding:10px;background:linear-gradient(135deg,#FFD700,#B8860B);border:none;border-radius:6px;color:#151528;font-weight:700;cursor:pointer;">Submit for Review</button>
-          <p id="artMsg" style="margin-top:8px;font-size:0.85em;"></p>
+        <div class="card" id="sec-article">
+          <span class="badge">Content</span>
+          <h3>📝 Submit Article</h3>
+          <p>Share your technical content with the community. Articles will be reviewed and published on our website.</p>
+          <br>
+          <div id="articleForm">
+            <input type="text" id="artTitle" placeholder="Article title" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
+            <input type="url" id="artUrl" placeholder="Article URL (community.aws, dev.to, etc)" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
+            <input type="text" id="artSummary" placeholder="Short summary (1-2 sentences)" style="width:100%;padding:10px;margin-bottom:8px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;">
+            <button onclick="submitArticle()" style="width:100%;padding:10px;background:linear-gradient(135deg,#FFD700,#B8860B);border:none;border-radius:6px;color:#151528;font-weight:700;cursor:pointer;">Submit for Review</button>
+            <p id="artMsg" style="margin-top:8px;font-size:0.85em;"></p>
+          </div>
+        </div>
+
+        <div class="card" id="sec-events">
+          <span class="badge">Events</span>
+          <h3>📅 Internal Events</h3>
+          <p>Exclusive meetups, study groups, and community calls for Golden Jacket members only.</p>
+          <br>
+          <a href="#">Coming soon →</a>
+        </div>
+
+        <div class="card" id="sec-brand">
+          <span class="badge">Brand</span>
+          <h3>🎨 Brand Assets</h3>
+          <p>Download official Golden Jackets Brazil logos, badges, and social media templates.</p>
+          <br>
+          <a href="#">Coming soon →</a>
+        </div>
+
+        <!-- Admin Panel -->
+        <div class="card" id="sec-admin" style="display:none;border:1px solid #FFD700;">
+          <span class="badge" style="background:#FFD700;color:#151528;">Admin</span>
+          <h3>⚙️ Admin Console</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
+            <button onclick="listUsers()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📋 List Users</button>
+            <button onclick="resendAll()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📧 Resend Pending</button>
+            <button onclick="window.open('https://github.com/ricardogulias/golden-jackets-brazil/pulls','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🔀 Open PRs</button>
+            <button onclick="window.open('https://us-east-1.console.aws.amazon.com/cognito/v2/idp/user-pools/us-east-1_Z0VzzrmIX/users','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">👥 Cognito Console</button>
+            <button onclick="window.open('https://us-east-1.console.aws.amazon.com/cloudfront/v4/home#/distributions/E3N4417EU5IQE6/invalidations','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🌐 CloudFront</button>
+            <button onclick="window.open('https://github.com/ricardogulias/golden-jackets-brazil/actions','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🚀 Deployments</button>
+          </div>
+          <div id="adminOutput" style="margin-top:12px;padding:12px;background:#0a0a18;border-radius:6px;font-family:monospace;font-size:0.8em;color:#ccc;max-height:300px;overflow-y:auto;display:none;"></div>
         </div>
       </div>
 
-      <div class="card">
-        <span class="badge">Events</span>
-        <h3>📅 Internal Events</h3>
-        <p>Exclusive meetups, study groups, and community calls for Golden Jacket members only.</p>
-        <br>
-        <a href="#">Coming soon →</a>
-      </div>
-
-      <div class="card">
-        <span class="badge">Brand</span>
-        <h3>🎨 Brand Assets</h3>
-        <p>Download official Golden Jackets Brazil logos, badges, and social media templates.</p>
-        <br>
-        <a href="#">Coming soon →</a>
+      <!-- Right sidebar menu -->
+      <div style="width:180px;position:sticky;top:20px;align-self:flex-start;">
+        <div style="background:#12122a;border:1px solid #2a2a45;border-radius:12px;padding:16px;">
+          <p style="color:#FFD700;font-weight:700;font-size:0.85em;margin-bottom:12px;">Navigation</p>
+          <a href="#sec-discord" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">💬 Discord</a>
+          <a href="#sec-resources" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">📚 Resources</a>
+          <a href="#sec-article" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">📝 Submit Article</a>
+          <a href="#sec-events" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">📅 Events</a>
+          <a href="#sec-brand" style="display:block;color:#ccc;font-size:0.8em;padding:6px 0;text-decoration:none;border-bottom:1px solid #1a1a30;">🎨 Brand Assets</a>
+          <a href="#sec-admin" onclick="toggleAdmin()" style="display:block;color:#FFD700;font-size:0.8em;padding:6px 0;text-decoration:none;font-weight:700;">⚙️ Admin</a>
+        </div>
       </div>
     </div>
   </div>
@@ -367,3 +397,44 @@ async function confirmReset() {
 </script>
 </body>
 </html>
+<script>
+var ADMIN_EMAIL = 'ricardo.gulias@darede.com.br';
+
+function toggleAdmin() {
+  var panel = document.getElementById('sec-admin');
+  var email = sessionStorage.getItem('gj_email');
+  if (email === ADMIN_EMAIL) {
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  } else {
+    alert('Admin access restricted.');
+  }
+}
+
+function showContent(userEmail) {
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('userEmail').textContent = userEmail;
+  if (userEmail === ADMIN_EMAIL) {
+    document.getElementById('sec-admin').style.display = 'block';
+  }
+}
+
+async function listUsers() {
+  var out = document.getElementById('adminOutput');
+  out.style.display = 'block';
+  out.innerHTML = 'Loading users...';
+  try {
+    var token = sessionStorage.getItem('gj_token');
+    // Use Cognito ListUsers via API
+    out.innerHTML = 'Use Kiro CLI to list users:\n\naws cognito-idp list-users --user-pool-id us-east-1_Z0VzzrmIX --profile gj --region us-east-1';
+  } catch(e) {
+    out.innerHTML = 'Error: ' + e.message;
+  }
+}
+
+async function resendAll() {
+  var out = document.getElementById('adminOutput');
+  out.style.display = 'block';
+  out.innerHTML = 'Use Kiro CLI to resend:\n\nPaste in terminal: "lista os users" then "reenvia senha para os pendentes"';
+}
+</script>
