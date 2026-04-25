@@ -134,7 +134,7 @@ async function adminCall(action, extra) {
   out.innerHTML = '<span style="color:#FFD700;">Loading...</span>';
   try {
     var body = Object.assign({action: action}, extra || {});
-    var resp = await fetch(ADMIN_API, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    var resp = await fetch(ADMIN_API, {method:'POST', headers:{'Content-Type':'application/json','Authorization':sessionStorage.getItem('gj_token')}, body: JSON.stringify(body)});
     return await resp.json();
   } catch(e) {
     out.innerHTML = '<span style="color:#f44336;">Error: ' + e.message + '</span>';
