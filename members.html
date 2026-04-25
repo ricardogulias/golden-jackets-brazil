@@ -160,6 +160,8 @@
           <h3>⚙️ Admin Console</h3>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
             <button onclick="listUsers()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📋 List Users</button>
+            <button onclick="createUser()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">➕ Create User</button>
+            <button onclick="deleteUser()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#f44336;cursor:pointer;font-size:0.85em;">🗑️ Delete User</button>
             <button onclick="resendAll()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📧 Resend Pending</button>
             <button onclick="window.open('https://github.com/ricardogulias/golden-jackets-brazil/pulls','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🔀 Open PRs</button>
             <button onclick="window.open('https://us-east-1.console.aws.amazon.com/cognito/v2/idp/user-pools/us-east-1_Z0VzzrmIX/users','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">👥 Cognito Console</button>
@@ -399,6 +401,7 @@ async function confirmReset() {
 </html>
 <script>
 var ADMIN_EMAIL = 'ricardo.gulias@darede.com.br';
+var ADMIN_API = 'https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/admin';
 
 function toggleAdmin() {
   var panel = document.getElementById('sec-admin');
@@ -410,31 +413,58 @@ function toggleAdmin() {
   }
 }
 
-function showContent(userEmail) {
-  document.getElementById('loginBox').style.display = 'none';
-  document.getElementById('content').style.display = 'block';
-  document.getElementById('userEmail').textContent = userEmail;
-  if (userEmail === ADMIN_EMAIL) {
-    document.getElementById('sec-admin').style.display = 'block';
+async function adminCall(action, extra) {
+  var out = document.getElementById('adminOutput');
+  out.style.display = 'block';
+  out.innerHTML = '<span style="color:#FFD700;">Loading...</span>';
+  try {
+    var body = Object.assign({action: action}, extra || {});
+    var resp = await fetch(ADMIN_API, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    var data = await resp.json();
+    return data;
+  } catch(e) {
+    out.innerHTML = '<span style="color:#f44336;">Error: ' + e.message + '</span>';
+    return null;
   }
 }
 
 async function listUsers() {
+  var data = await adminCall('list-users');
+  if (!data || !data.users) return;
   var out = document.getElementById('adminOutput');
-  out.style.display = 'block';
-  out.innerHTML = 'Loading users...';
-  try {
-    var token = sessionStorage.getItem('gj_token');
-    // Use Cognito ListUsers via API
-    out.innerHTML = 'Use Kiro CLI to list users:\n\naws cognito-idp list-users --user-pool-id us-east-1_Z0VzzrmIX --profile gj --region us-east-1';
-  } catch(e) {
-    out.innerHTML = 'Error: ' + e.message;
-  }
+  var confirmed = data.users.filter(function(u){return u.status==='CONFIRMED';});
+  var pending = data.users.filter(function(u){return u.status!=='CONFIRMED';});
+  var html = '<strong style="color:#FFD700;">Total: ' + data.users.length + ' users (' + confirmed.length + ' confirmed, ' + pending.length + ' pending)</strong><br><br>';
+  html += '<strong style="color:#4CAF50;">✅ Confirmed:</strong><br>';
+  confirmed.forEach(function(u){ html += u.email + '<br>'; });
+  html += '<br><strong style="color:#ff9800;">⏳ Pending:</strong><br>';
+  pending.forEach(function(u){ html += u.email + '<br>'; });
+  out.innerHTML = html;
 }
 
 async function resendAll() {
+  var data = await adminCall('resend-pending');
+  if (!data) return;
   var out = document.getElementById('adminOutput');
-  out.style.display = 'block';
-  out.innerHTML = 'Use Kiro CLI to resend:\n\nPaste in terminal: "lista os users" then "reenvia senha para os pendentes"';
+  out.innerHTML = '<strong style="color:#4CAF50;">✅ Resent to ' + data.count + ' users:</strong><br><br>' + data.resent.join('<br>');
+}
+
+async function createUser() {
+  var email = prompt('Enter email for new user:');
+  if (!email) return;
+  var data = await adminCall('create-user', {email: email});
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  out.innerHTML = '<strong style="color:#4CAF50;">✅ ' + data.message + '</strong>';
+}
+
+async function deleteUser() {
+  var email = prompt('Enter email to delete:');
+  if (!email) return;
+  if (!confirm('Delete user ' + email + '? This cannot be undone.')) return;
+  var data = await adminCall('delete-user', {email: email});
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  out.innerHTML = '<strong style="color:#4CAF50;">✅ ' + data.message + '</strong>';
 }
 </script>
