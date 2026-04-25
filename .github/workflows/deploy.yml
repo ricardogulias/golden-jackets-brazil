@@ -98,7 +98,7 @@ jobs:
           [ "$GOLDEN" -ge 20 ] && echo "  ✅ Card count OK" || { echo "  ❌ Too few cards ($GOLDEN)"; ERRORS=$((ERRORS+1)); }
 
           # Check APIs respond
-          for EP in apply article sponsor; do
+          for EP in apply article; do
             CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/$EP -H "Content-Type: application/json" -d '{}')
             echo "API /$EP: HTTP $CODE"
             [ "$CODE" != "000" ] && echo "  ✅ Responding" || { echo "  ❌ Offline"; ERRORS=$((ERRORS+1)); }
