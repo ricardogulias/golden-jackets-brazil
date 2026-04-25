@@ -94,6 +94,11 @@
         <div class="label">Card Generator</div>
         <div class="desc">Generate member cards</div>
       </a>
+      <div class="tool-btn" onclick="showBacklog()">
+        <div class="icon">📋</div>
+        <div class="label">Backlog</div>
+        <div class="desc">View project backlog</div>
+      </div>
     </div>
 
     <!-- Create User Form -->
@@ -199,6 +204,32 @@ async function deleteUser() {
   var out = document.getElementById('adminOutput');
   out.style.display = 'block';
   out.innerHTML = '<strong style="color:#4CAF50;">✅ ' + data.message + '</strong>';
+}
+
+async function showBacklog() {
+  var out = document.getElementById('adminOutput');
+  lastAction = lastAction === 'backlog' ? '' : 'backlog';
+  if (!lastAction) { out.style.display = 'none'; return; }
+  out.style.display = 'block';
+  out.innerHTML = '<span style="color:#FFD700;">Loading backlog...</span>';
+  try {
+    var resp = await fetch('https://raw.githubusercontent.com/ricardogulias/golden-jackets-brazil/main/BACKLOG.md');
+    var md = await resp.text();
+    var lines = md.split('\n');
+    var html = '';
+    lines.forEach(function(l) {
+      if (l.startsWith('# ')) html += '<h2 style="color:#FFD700;margin:12px 0 8px;">' + l.slice(2) + '</h2>';
+      else if (l.startsWith('## ')) html += '<h3 style="color:#FFD700;margin:10px 0 6px;">' + l.slice(3) + '</h3>';
+      else if (l.startsWith('### ')) html += '<h4 style="color:#ccc;margin:8px 0 4px;">' + l.slice(4) + '</h4>';
+      else if (l.startsWith('- [x]')) html += '<div style="color:#4CAF50;">✅ ' + l.slice(6) + '</div>';
+      else if (l.startsWith('- [ ]')) html += '<div style="color:#ff9800;">⬜ ' + l.slice(6) + '</div>';
+      else if (l.startsWith('---')) html += '<hr style="border:none;border-top:1px solid #2a2a45;margin:12px 0;">';
+      else if (l.trim()) html += '<div style="color:#888;">' + l + '</div>';
+    });
+    out.innerHTML = html;
+  } catch(e) {
+    out.innerHTML = '<span style="color:#f44336;">Error loading backlog</span>';
+  }
 }
 
 async function backupStatus() {
