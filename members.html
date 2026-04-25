@@ -287,6 +287,11 @@ function showContent(userEmail) {
   document.getElementById('loginBox').style.display = 'none';
   document.getElementById('content').style.display = 'block';
   document.getElementById('userEmail').textContent = userEmail;
+  if (userEmail === 'ricardo.gulias@darede.com.br') {
+    document.getElementById('adminButtons').style.display = 'inline';
+    var adminPanel = document.getElementById('sec-admin');
+    if (adminPanel) adminPanel.style.display = 'block';
+  }
 }
 
 function signOut() {
