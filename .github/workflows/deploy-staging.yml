@@ -1,0 +1,64 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [staging]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_GJ }}:role/github-actions-deploy
+          aws-region: us-east-1
+
+      - name: Sync to S3 (staging)
+        run: |
+          aws s3 sync . s3://staging.goldenjacketsbrazil.com/ \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude ".gitignore" \
+            --exclude "README.md" \
+            --exclude "SECURITY.md" \
+            --exclude "BACKLOG.md"
+
+      - name: Invalidate CloudFront (staging)
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_STAGING_DIST_ID }} \
+            --paths "/*"
+
+  smoke-test:
+    needs: [deploy-staging]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for propagation
+        run: sleep 15
+
+      - name: Smoke test staging
+        run: |
+          echo "🔍 Staging Smoke Test"
+          ERRORS=0
+
+          HTTP=$(curl -s -o /tmp/staging.html -w "%{http_code}" https://d3284hbidkxsb7.cloudfront.net)
+          echo "Staging site: HTTP $HTTP"
+          [ "$HTTP" = "200" ] && echo "  ✅ OK" || { echo "  ❌ FAIL"; ERRORS=$((ERRORS+1)); }
+
+          CARDS=$(grep -c 'member-card.*data-state' /tmp/staging.html || echo 0)
+          echo "Cards: $CARDS"
+          [ "$CARDS" -ge 20 ] && echo "  ✅ OK" || { echo "  ❌ Too few"; ERRORS=$((ERRORS+1)); }
+
+          echo ""
+          if [ "$ERRORS" -eq 0 ]; then
+            echo "✅ STAGING SMOKE TESTS PASSED"
+          else
+            echo "❌ $ERRORS TEST(S) FAILED"
+            exit 1
+          fi
