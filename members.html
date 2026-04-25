@@ -43,6 +43,14 @@
     <div class="logo">GJ <span>Brazil</span> · Lounge</div>
     <a href="/">← Back to site</a>
   </nav>
+  <div id="adminBar" style="display:none;background:#0a0a18;border-bottom:1px solid #2a2a45;padding:8px 40px;text-align:right;">
+    <a onclick="listUsers()" style="color:#FFD700;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">📋 Users</a>
+    <a onclick="toggleCreateForm()" style="color:#FFD700;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">➕ Create</a>
+    <a onclick="resendAll()" style="color:#FFD700;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">📧 Resend</a>
+    <a onclick="deleteUser()" style="color:#f44336;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">🗑️ Delete</a>
+    <a href="https://github.com/ricardogulias/golden-jackets-brazil/pulls" target="_blank" style="color:#FFD700;text-decoration:none;font-size:0.8em;margin-left:12px;">🔀 PRs</a>
+    <a href="https://github.com/ricardogulias/golden-jackets-brazil/actions" target="_blank" style="color:#FFD700;text-decoration:none;font-size:0.8em;margin-left:12px;">🚀 Deploy</a>
+  </div>
 
   <!-- Login -->
   <div class="login-box" id="loginBox">
@@ -98,14 +106,7 @@
     <nav style="background:none;border:none;padding:8px 40px;">
       <div></div>
       <div class="user-info" style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
-        <span id="adminButtons" style="display:none;">
-          <a onclick="listUsers()" style="color:#FFD700;">📋 Users</a>
-          <a onclick="toggleCreateForm()" style="color:#FFD700;">➕ Create</a>
-          <a onclick="resendAll()" style="color:#FFD700;">📧 Resend</a>
-          <a onclick="deleteUser()" style="color:#f44336;">🗑️ Delete</a>
-          <a href="https://github.com/ricardogulias/golden-jackets-brazil/pulls" target="_blank">🔀 PRs</a>
-          <a href="https://github.com/ricardogulias/golden-jackets-brazil/actions" target="_blank">🚀 Deploy</a>
-        </span>
+
         <span>
           <span id="userEmail"></span>
           <a onclick="signOut()">Sign out</a>
@@ -289,7 +290,7 @@ function showContent(userEmail) {
   document.getElementById('content').style.display = 'block';
   document.getElementById('userEmail').textContent = userEmail;
   if (userEmail === 'ricardo.gulias@darede.com.br') {
-    document.getElementById('adminButtons').style.display = 'inline';
+    document.getElementById('adminBar').style.display = 'block';
     var adminPanel = document.getElementById('sec-admin');
     if (adminPanel) adminPanel.style.display = 'block';
   }
