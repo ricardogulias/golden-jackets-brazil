@@ -97,7 +97,7 @@
   <div id="content">
     <nav style="background:none;border:none;padding:8px 40px;">
       <div></div>
-      <div class="user-info">
+      <div class="user-info" style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
         <span id="adminButtons" style="display:none;">
           <a onclick="listUsers()" style="color:#FFD700;">📋 Users</a>
           <a onclick="toggleCreateForm()" style="color:#FFD700;">➕ Create</a>
@@ -105,10 +105,11 @@
           <a onclick="deleteUser()" style="color:#f44336;">🗑️ Delete</a>
           <a href="https://github.com/ricardogulias/golden-jackets-brazil/pulls" target="_blank">🔀 PRs</a>
           <a href="https://github.com/ricardogulias/golden-jackets-brazil/actions" target="_blank">🚀 Deploy</a>
-          <span style="color:#333;margin:0 4px;">|</span>
         </span>
-        <span id="userEmail"></span>
-        <a onclick="signOut()">Sign out</a>
+        <span>
+          <span id="userEmail"></span>
+          <a onclick="signOut()">Sign out</a>
+        </span>
       </div>
     </nav>
 
