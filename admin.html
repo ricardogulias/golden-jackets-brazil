@@ -131,13 +131,16 @@ if (!token || email !== 'ricardo.gulias@darede.com.br') {
 var lastAction = '';
 async function adminCall(action, extra) {
   var out = document.getElementById('adminOutput');
-  if (out.style.display === 'block' && lastAction === action && !extra) {
+  var form = document.getElementById('createUserForm');
+  if (form) form.style.display = 'none';
+  if (lastAction === action && out.style.display === 'block' && !extra) {
     out.style.display = 'none';
     lastAction = '';
     return null;
   }
   lastAction = action;
   out.style.display = 'block';
+  out.scrollIntoView({behavior:'smooth'});
   out.innerHTML = '<span style="color:#FFD700;">Loading...</span>';
   try {
     var body = Object.assign({action: action}, extra || {});
