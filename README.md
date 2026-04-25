@@ -40,10 +40,10 @@ Community website celebrating Brazilian professionals who earned all active AWS 
               │  GitHub    GitHub      SNS
               │   PR        PR      + SES
               │
-       ┌──────┴──────┐ ┌──────────────┐
-       │  Lambda     │ │  Lambda      │
-       │  Admin API  │ │  gj-admin    │
-       └─────────────┘ └──────────────┘
+       ┌──────┴──────┐
+       │  Lambda     │
+       │  Admin API  │
+       └─────────────┘
 
        ┌─────────────┐
        │ AWS Backup  │
@@ -52,102 +52,95 @@ Community website celebrating Brazilian professionals who earned all active AWS 
        └─────────────┘
 ```
 
-## AWS Services Used
+## AWS Services
 
 | Service | Purpose |
 |---------|---------|
-| **S3** | Static website hosting (2 buckets: www + origin) |
+| **S3** | Static website hosting (2 buckets) |
 | **CloudFront** | CDN, SSL termination, caching |
 | **WAF v2** | Bot protection, rate limiting |
 | **Route 53** | DNS management |
 | **Cognito** | User authentication (Members Lounge) |
-| **API Gateway** | HTTP API for apply, article, sponsor, admin endpoints |
-| **Lambda** | `gj-apply` (member applications), `gj-article` (article submissions), `gj-sponsor` (sponsor inquiries), `gj-admin` (admin operations) |
-| **SES** | Transactional emails (sponsor confirmations, welcome emails) |
-| **SNS** | Admin notifications (new applications, sponsor inquiries) |
-| **AWS Backup** | Automated S3 backups (daily/weekly/monthly) |
-| **GitHub Actions** | CI/CD (deploy to S3 + CloudFront invalidation + Cognito user creation) |
+| **API Gateway** | HTTP API for member, article, sponsor, and admin endpoints |
+| **Lambda** | Backend logic (applications, articles, sponsors, admin) |
+| **SES** | Transactional emails |
+| **SNS** | Admin notifications |
+| **AWS Backup** | Automated S3 backups |
+| **GitHub Actions** | CI/CD pipeline |
 
-## Structure
+## Project Structure
 
 ```
-├── index.html              # Main website (Golden Jackets + Challengers + Articles + Sponsors)
-├── members.html            # Members Lounge (authenticated area)
-├── admin.html              # Admin Console (restricted to founder)
-├── card-generator.html     # Member card generator tool
+├── index.html              # Main website
+├── members.html            # Members Lounge (authenticated)
+├── admin.html              # Admin Console (restricted)
+├── card-generator.html     # Member card generator
 ├── assets/
 │   ├── members/            # Member photos
 │   ├── badges/             # AWS certification badges
 │   ├── sponsors/           # Sponsor logos
-│   ├── Designer.png        # Hero logo
-│   └── geriesabouayash.jpg # Geries quote photo
+│   └── *.png / *.jpg       # Site assets
 ├── .github/
 │   └── workflows/
-│       ├── deploy.yml      # S3 sync + CloudFront invalidation
-│       └── create-user.yml # Cognito user creation + welcome email
+│       ├── deploy.yml      # S3 deploy + CloudFront invalidation
+│       └── create-user.yml # User onboarding automation
 └── README.md
 ```
 
-## API Endpoints
+## CI/CD
 
-Base URL: `https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com`
-
-| Method | Path | Lambda | Description |
-|--------|------|--------|-------------|
-| POST | `/apply` | gj-apply | Member application → creates GitHub PR |
-| POST | `/article` | gj-article | Article submission → creates GitHub PR |
-| POST | `/sponsor` | gj-sponsor | Sponsor inquiry → SNS + SES confirmation |
-| POST | `/admin` | gj-admin | Admin operations (list users, create, delete, resend, backup) |
-
-## AWS Backup
-
-| Schedule | Retention | Vault |
-|----------|-----------|-------|
-| Daily (5AM UTC) | 7 days | gj-site-backups |
-| Weekly (Sunday 5AM UTC) | 30 days | gj-site-backups |
-| Monthly (1st, 5AM UTC) | 365 days | gj-site-backups |
-
-## GitHub Actions Workflows
-
-### Deploy to S3 (`deploy.yml`)
+### Deploy (`deploy.yml`)
 - Triggers on push to `main`
-- Syncs files to both S3 buckets
+- Syncs to S3 buckets
 - Invalidates CloudFront cache
 
-### Create Cognito User (`create-user.yml`)
-- Triggers on PR merge with title "New Member:"
-- Creates Cognito user with temporary password
-- Sends welcome email via SES (30min delay)
+### User Onboarding (`create-user.yml`)
+- Triggers on PR merge (new members)
+- Creates authenticated user
+- Sends welcome email with 30min delay
 
-## AWS Accounts
+## Backup Strategy
 
-| Account | ID | Purpose |
-|---------|-----|---------|
-| Golden Jackets | 800712212925 | Cognito, API Gateway, Lambda, Backup, WAF, CloudFront, S3 (www) |
-| Origin | 948949707127 | S3 (origin bucket) |
+| Schedule | Retention |
+|----------|-----------|
+| Daily (5AM UTC) | 7 days |
+| Weekly (Sunday) | 30 days |
+| Monthly (1st) | 365 days |
 
-## Cognito User Pool
+## Security
 
-- **Pool ID**: `us-east-1_Z0VzzrmIX`
-- **Client ID**: `6p0utci3h0mfsv02k4848vhhch`
-- **Region**: us-east-1
-- **Auth flow**: USER_PASSWORD_AUTH
+- All traffic served over HTTPS via CloudFront
+- WAF v2 with bot protection and rate limiting
+- Cognito authentication for Members Lounge
+- Admin Console restricted to authorized email
+- CORS restricted to goldenjacketsbrazil.com domain
+- S3 buckets with versioning enabled
+- No secrets stored in repository
+- GitHub Actions uses OIDC federation (no static credentials)
 
-## SNS Topic
+## API Endpoints
 
-- **ARN**: `arn:aws:sns:us-east-1:800712212925:goldenjackets-alerts`
-- Sends notifications for new member applications and sponsor inquiries
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/apply` | Member application → GitHub PR |
+| POST | `/article` | Article submission → GitHub PR |
+| POST | `/sponsor` | Sponsor inquiry → notification + confirmation email |
+| POST | `/admin` | Admin operations (authenticated) |
+
+> API base URL, account IDs, and resource ARNs are not published for security. See internal documentation.
 
 ## Community
 
 - **Website**: [goldenjacketsbrazil.com](https://goldenjacketsbrazil.com)
 - **LinkedIn**: [Golden Jackets Brazil](https://www.linkedin.com/company/golden-jackets-brazil)
-- **Discord**: [Join Server](https://discord.gg/qntq7b7UqF)
 
-## Founder
+## Contributing
 
-Ricardo Gulias — AWS Golden Jacket, 12x AWS Certified
-📱 WhatsApp: +55 11 93248-9800
+Members can submit articles and content through the Members Lounge. For technical contributions, please open an issue or pull request.
+
+## License
+
+This project is maintained by the Golden Jackets Brazil community.
 
 ---
 
