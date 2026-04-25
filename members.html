@@ -43,16 +43,7 @@
     <div class="logo">GJ <span>Brazil</span> · Lounge</div>
     <a href="/">← Back to site</a>
   </nav>
-  <div id="adminBar" style="display:none;background:#0a0a18;border-bottom:1px solid #2a2a45;padding:8px 40px;text-align:right;">
-    <a onclick="listUsers()" style="color:#FFD700;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">📋 Users</a>
-    <a onclick="toggleCreateForm()" style="color:#FFD700;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">➕ Create</a>
-    <a onclick="resendAll()" style="color:#FFD700;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">📧 Resend</a>
-    <a onclick="deleteUser()" style="color:#f44336;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">🗑️ Delete</a>
-    <a href="https://github.com/ricardogulias/golden-jackets-brazil/pulls" target="_blank" style="color:#FFD700;text-decoration:none;font-size:0.8em;margin-left:12px;">🔀 PRs</a>
-    <a href="https://github.com/ricardogulias/golden-jackets-brazil/actions" target="_blank" style="color:#FFD700;text-decoration:none;font-size:0.8em;margin-left:12px;">🚀 Deploy</a>
-    <a onclick="backupStatus()" style="color:#4CAF50;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">💾 Backup</a>
-    <a onclick="restoreBackup()" style="color:#ff9800;cursor:pointer;text-decoration:none;font-size:0.8em;margin-left:12px;">♻️ Restore</a>
-  </div>
+
 
   <!-- Login -->
   <div class="login-box" id="loginBox">
@@ -167,37 +158,7 @@
           <a href="#">Coming soon →</a>
         </div>
 
-        <!-- Admin Panel -->
-        <div class="card" id="sec-admin" style="display:none;border:1px solid #FFD700;">
-          <span class="badge" style="background:#FFD700;color:#151528;">Admin</span>
-          <h3>⚙️ Admin Console</h3>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
-            <button onclick="listUsers()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📋 List Users</button>
-            <button onclick="toggleCreateForm()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">➕ Create User</button>
-            <button onclick="deleteUser()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#f44336;cursor:pointer;font-size:0.85em;">🗑️ Delete User</button>
-            <button onclick="resendAll()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📧 Resend Pending</button>
-            <button onclick="window.open('https://github.com/ricardogulias/golden-jackets-brazil/pulls','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🔀 Open PRs</button>
-            
-            
-            <button onclick="window.open('https://github.com/ricardogulias/golden-jackets-brazil/actions','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🚀 Deployments</button>
-          </div>
-          <div id="createUserForm" style="display:none;margin-top:12px;padding:16px;background:#0a0a18;border:1px solid #2a2a45;border-radius:8px;">
-          <p style="color:#FFD700;font-weight:700;font-size:0.9em;margin-bottom:10px;">➕ Create New User</p>
-          <input type="text" id="newUserName" placeholder="Full name" style="width:100%;padding:8px;margin-bottom:6px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;font-size:0.85em;">
-          <input type="email" id="newUserEmail" placeholder="Email" style="width:100%;padding:8px;margin-bottom:6px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;font-size:0.85em;">
-          <select id="newUserType" style="width:100%;padding:8px;margin-bottom:6px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;font-size:0.85em;">
-            <option value="golden">Golden Jacket (12/12)</option>
-            <option value="challenger">Challenger (11/12)</option>
-          </select>
-          <div style="display:flex;gap:8px;margin-top:8px;">
-            <button onclick="createUser()" style="flex:1;padding:8px;background:linear-gradient(135deg,#FFD700,#B8860B);border:none;border-radius:6px;color:#151528;font-weight:700;cursor:pointer;font-size:0.85em;">Create & Send Invite</button>
-            <button onclick="toggleCreateForm()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#888;cursor:pointer;font-size:0.85em;">Cancel</button>
-          </div>
-          <p id="createMsg" style="margin-top:8px;font-size:0.8em;"></p>
-        </div>
-        <div id="adminOutput" style="margin-top:12px;padding:12px;background:#0a0a18;border-radius:6px;font-family:monospace;font-size:0.8em;color:#ccc;max-height:300px;overflow-y:auto;display:none;"></div>
-        </div>
-      </div>
+        
 
       <!-- Right sidebar menu -->
       <div style="width:180px;position:sticky;top:20px;align-self:flex-start;">
@@ -292,7 +253,7 @@ function showContent(userEmail) {
   document.getElementById('content').style.display = 'block';
   document.getElementById('userEmail').textContent = userEmail;
   if (userEmail === 'ricardo.gulias@darede.com.br') {
-    document.getElementById('adminBar').style.display = 'block';
+    document.getElementById('adminBtnWrap').style.display = 'inline';
     var adminPanel = document.getElementById('sec-admin');
     if (adminPanel) adminPanel.style.display = 'block';
   }

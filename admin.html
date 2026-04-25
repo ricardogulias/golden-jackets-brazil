@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden Jackets Brazil - Admin Console</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a1a; color: #e0e0e0; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 40px; border-bottom: 1px solid #1a1a30; }
+    .logo { font-weight: 800; font-size: 1.1em; color: #FFD700; }
+    .logo span { color: #888; font-weight: 400; }
+    .nav-links a { color: #FFD700; text-decoration: none; margin-left: 16px; font-size: 0.85em; }
+    .nav-links a:hover { text-decoration: underline; }
+    .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+    h1 { color: #FFD700; font-size: 1.6em; margin-bottom: 8px; }
+    .subtitle { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+    .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .tool-btn { padding: 14px 16px; background: #12122a; border: 1px solid #2a2a45; border-radius: 10px; cursor: pointer; text-align: center; transition: all 0.3s; text-decoration: none; display: block; }
+    .tool-btn:hover { border-color: #FFD700; transform: translateY(-2px); }
+    .tool-btn .icon { font-size: 1.5em; margin-bottom: 6px; }
+    .tool-btn .label { color: #FFD700; font-weight: 700; font-size: 0.85em; }
+    .tool-btn .desc { color: #888; font-size: 0.7em; margin-top: 4px; }
+    .tool-btn.danger { border-color: #331111; }
+    .tool-btn.danger:hover { border-color: #f44336; }
+    .tool-btn.danger .label { color: #f44336; }
+    .tool-btn.green .label { color: #4CAF50; }
+    .tool-btn.orange .label { color: #ff9800; }
+    .output { background: #0a0a18; border: 1px solid #2a2a45; border-radius: 10px; padding: 20px; font-family: monospace; font-size: 0.85em; color: #ccc; min-height: 100px; max-height: 400px; overflow-y: auto; margin-bottom: 24px; display: none; }
+    .form-card { background: #12122a; border: 1px solid #2a2a45; border-radius: 10px; padding: 20px; margin-bottom: 24px; display: none; }
+    .form-card h3 { color: #FFD700; font-size: 1em; margin-bottom: 12px; }
+    .form-card input, .form-card select { width: 100%; padding: 10px; margin-bottom: 8px; background: #0a0a18; border: 1px solid #2a2a45; border-radius: 6px; color: #e0e0e0; font-family: inherit; font-size: 0.9em; }
+    .form-card button { padding: 10px 20px; background: linear-gradient(135deg, #FFD700, #B8860B); border: none; border-radius: 6px; color: #151528; font-weight: 700; cursor: pointer; font-size: 0.9em; }
+    .form-card .cancel { background: #1a1a30; border: 1px solid #2a2a45; color: #888; margin-left: 8px; }
+    footer { text-align: center; padding: 20px; color: #444; font-size: 0.8em; border-top: 1px solid #1a1a30; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">GJ <span>Brazil</span> · Admin</div>
+    <div class="nav-links">
+      <a href="/members.html">← Back to Lounge</a>
+      <a href="/">Main Site</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>⚙️ Admin Console</h1>
+    <p class="subtitle">Manage users, backups, and deployments</p>
+
+    <div class="tools">
+      <div class="tool-btn" onclick="listUsers()">
+        <div class="icon">📋</div>
+        <div class="label">List Users</div>
+        <div class="desc">View all Cognito users and status</div>
+      </div>
+      <div class="tool-btn" onclick="toggleCreateForm()">
+        <div class="icon">➕</div>
+        <div class="label">Create User</div>
+        <div class="desc">Add new member to Lounge</div>
+      </div>
+      <div class="tool-btn" onclick="resendAll()">
+        <div class="icon">📧</div>
+        <div class="label">Resend Pending</div>
+        <div class="desc">Resend temp password to all pending</div>
+      </div>
+      <div class="tool-btn danger" onclick="deleteUser()">
+        <div class="icon">🗑️</div>
+        <div class="label">Delete User</div>
+        <div class="desc">Remove user from Cognito</div>
+      </div>
+      <div class="tool-btn green" onclick="backupStatus()">
+        <div class="icon">💾</div>
+        <div class="label">Backup Status</div>
+        <div class="desc">View backup job history</div>
+      </div>
+      <div class="tool-btn orange" onclick="restoreBackup()">
+        <div class="icon">♻️</div>
+        <div class="label">Restore</div>
+        <div class="desc">Restore site from latest backup</div>
+      </div>
+      <a class="tool-btn" href="https://github.com/ricardogulias/golden-jackets-brazil/pulls" target="_blank">
+        <div class="icon">🔀</div>
+        <div class="label">Open PRs</div>
+        <div class="desc">Review pending pull requests</div>
+      </a>
+      <a class="tool-btn" href="https://github.com/ricardogulias/golden-jackets-brazil/actions" target="_blank">
+        <div class="icon">🚀</div>
+        <div class="label">Deployments</div>
+        <div class="desc">GitHub Actions status</div>
+      </a>
+    </div>
+
+    <!-- Create User Form -->
+    <div class="form-card" id="createUserForm">
+      <h3>➕ Create New User</h3>
+      <input type="text" id="newUserName" placeholder="Full name">
+      <input type="email" id="newUserEmail" placeholder="Email">
+      <select id="newUserType">
+        <option value="golden">Golden Jacket (12/12)</option>
+        <option value="challenger">Challenger (11/12)</option>
+      </select>
+      <div>
+        <button onclick="createUser()">Create & Send Invite</button>
+        <button class="cancel" onclick="toggleCreateForm()">Cancel</button>
+      </div>
+      <p id="createMsg" style="margin-top:8px;font-size:0.85em;"></p>
+    </div>
+
+    <!-- Output -->
+    <div class="output" id="adminOutput"></div>
+  </div>
+
+  <footer>Golden Jackets Brazil © 2026 · Admin Console</footer>
+
+<script>
+var ADMIN_API = 'https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/admin';
+
+// Check auth
+var token = sessionStorage.getItem('gj_token');
+var email = sessionStorage.getItem('gj_email');
+if (!token || email !== 'ricardo.gulias@darede.com.br') {
+  document.body.innerHTML = '<div style="text-align:center;padding:100px;"><h2 style="color:#f44336;">Access Denied</h2><p style="color:#888;margin-top:12px;">Admin access restricted.</p><a href="/members.html" style="color:#FFD700;">← Back to Lounge</a></div>';
+}
+
+async function adminCall(action, extra) {
+  var out = document.getElementById('adminOutput');
+  out.style.display = 'block';
+  out.innerHTML = '<span style="color:#FFD700;">Loading...</span>';
+  try {
+    var body = Object.assign({action: action}, extra || {});
+    var resp = await fetch(ADMIN_API, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    return await resp.json();
+  } catch(e) {
+    out.innerHTML = '<span style="color:#f44336;">Error: ' + e.message + '</span>';
+    return null;
+  }
+}
+
+async function listUsers() {
+  var data = await adminCall('list-users');
+  if (!data || !data.users) return;
+  var out = document.getElementById('adminOutput');
+  var confirmed = data.users.filter(function(u){return u.status==='CONFIRMED';});
+  var pending = data.users.filter(function(u){return u.status!=='CONFIRMED';});
+  var html = '<strong style="color:#FFD700;">Total: ' + data.users.length + ' users (' + confirmed.length + ' confirmed, ' + pending.length + ' pending)</strong><br><br>';
+  html += '<strong style="color:#4CAF50;">✅ Confirmed (' + confirmed.length + '):</strong><br>';
+  confirmed.forEach(function(u,i){ html += (i+1) + '. ' + u.email + '<br>'; });
+  html += '<br><strong style="color:#ff9800;">⏳ Pending (' + pending.length + '):</strong><br>';
+  pending.forEach(function(u,i){ html += (i+1) + '. ' + u.email + '<br>'; });
+  out.innerHTML = html;
+}
+
+function toggleCreateForm() {
+  var form = document.getElementById('createUserForm');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+async function createUser() {
+  var name = document.getElementById('newUserName').value;
+  var email = document.getElementById('newUserEmail').value;
+  var msg = document.getElementById('createMsg');
+  if (!name || !email) { msg.innerHTML = '<span style="color:#f44336;">Name and email required</span>'; return; }
+  msg.innerHTML = '<span style="color:#FFD700;">Creating...</span>';
+  var data = await adminCall('create-user', {email: email});
+  if (!data) return;
+  msg.innerHTML = '<span style="color:#4CAF50;">✅ ' + data.message + '</span>';
+  document.getElementById('newUserName').value = '';
+  document.getElementById('newUserEmail').value = '';
+}
+
+async function resendAll() {
+  var data = await adminCall('resend-pending');
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  out.innerHTML = '<strong style="color:#4CAF50;">✅ Resent to ' + data.count + ' users:</strong><br><br>' + (data.resent||[]).join('<br>');
+}
+
+async function deleteUser() {
+  var email = prompt('Enter email to delete:');
+  if (!email || !confirm('Delete ' + email + '?')) return;
+  var data = await adminCall('delete-user', {email: email});
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  out.style.display = 'block';
+  out.innerHTML = '<strong style="color:#4CAF50;">✅ ' + data.message + '</strong>';
+}
+
+async function backupStatus() {
+  var data = await adminCall('backup-status');
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  if (data.jobs && data.jobs.length > 0) {
+    var h = '<strong style="color:#4CAF50;">💾 Backup Jobs:</strong><br><br>';
+    data.jobs.forEach(function(j){ h += '<span style="color:#FFD700;">' + j.status + '</span> | ' + j.resource + ' | ' + j.date + '<br>'; });
+    out.innerHTML = h;
+  } else {
+    out.innerHTML = '<span style="color:#FFD700;">No backup jobs yet. First backup runs at 5AM UTC.</span>';
+  }
+}
+
+async function restoreBackup() {
+  if (!confirm('Restore site from latest backup? This will overwrite current S3 content.')) return;
+  var data = await adminCall('restore-backup');
+  if (!data) return;
+  var out = document.getElementById('adminOutput');
+  out.style.display = 'block';
+  out.innerHTML = '<strong style="color:#4CAF50;">✅ ' + data.message + '</strong>';
+}
+</script>
+</body>
+</html>
