@@ -160,7 +160,7 @@
           <h3>⚙️ Admin Console</h3>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
             <button onclick="listUsers()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📋 List Users</button>
-            <button onclick="createUser()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">➕ Create User</button>
+            <button onclick="toggleCreateForm()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">➕ Create User</button>
             <button onclick="deleteUser()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#f44336;cursor:pointer;font-size:0.85em;">🗑️ Delete User</button>
             <button onclick="resendAll()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">📧 Resend Pending</button>
             <button onclick="window.open('https://github.com/ricardogulias/golden-jackets-brazil/pulls','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🔀 Open PRs</button>
@@ -168,7 +168,21 @@
             <button onclick="window.open('https://us-east-1.console.aws.amazon.com/cloudfront/v4/home#/distributions/E3N4417EU5IQE6/invalidations','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🌐 CloudFront</button>
             <button onclick="window.open('https://github.com/ricardogulias/golden-jackets-brazil/actions','_blank')" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#FFD700;cursor:pointer;font-size:0.85em;">🚀 Deployments</button>
           </div>
-          <div id="adminOutput" style="margin-top:12px;padding:12px;background:#0a0a18;border-radius:6px;font-family:monospace;font-size:0.8em;color:#ccc;max-height:300px;overflow-y:auto;display:none;"></div>
+          <div id="createUserForm" style="display:none;margin-top:12px;padding:16px;background:#0a0a18;border:1px solid #2a2a45;border-radius:8px;">
+          <p style="color:#FFD700;font-weight:700;font-size:0.9em;margin-bottom:10px;">➕ Create New User</p>
+          <input type="text" id="newUserName" placeholder="Full name" style="width:100%;padding:8px;margin-bottom:6px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;font-size:0.85em;">
+          <input type="email" id="newUserEmail" placeholder="Email" style="width:100%;padding:8px;margin-bottom:6px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;font-size:0.85em;">
+          <select id="newUserType" style="width:100%;padding:8px;margin-bottom:6px;background:#151528;border:1px solid #2a2a45;border-radius:6px;color:#e0e0e0;font-family:inherit;font-size:0.85em;">
+            <option value="golden">Golden Jacket (12/12)</option>
+            <option value="challenger">Challenger (11/12)</option>
+          </select>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button onclick="createUser()" style="flex:1;padding:8px;background:linear-gradient(135deg,#FFD700,#B8860B);border:none;border-radius:6px;color:#151528;font-weight:700;cursor:pointer;font-size:0.85em;">Create & Send Invite</button>
+            <button onclick="toggleCreateForm()" style="padding:8px 14px;background:#1a1a30;border:1px solid #2a2a45;border-radius:6px;color:#888;cursor:pointer;font-size:0.85em;">Cancel</button>
+          </div>
+          <p id="createMsg" style="margin-top:8px;font-size:0.8em;"></p>
+        </div>
+        <div id="adminOutput" style="margin-top:12px;padding:12px;background:#0a0a18;border-radius:6px;font-family:monospace;font-size:0.8em;color:#ccc;max-height:300px;overflow-y:auto;display:none;"></div>
         </div>
       </div>
 
@@ -449,13 +463,23 @@ async function resendAll() {
   out.innerHTML = '<strong style="color:#4CAF50;">✅ Resent to ' + data.count + ' users:</strong><br><br>' + data.resent.join('<br>');
 }
 
+function toggleCreateForm() {
+  var form = document.getElementById('createUserForm');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
 async function createUser() {
-  var email = prompt('Enter email for new user:');
-  if (!email) return;
-  var data = await adminCall('create-user', {email: email});
+  var name = document.getElementById('newUserName').value;
+  var email = document.getElementById('newUserEmail').value;
+  var type = document.getElementById('newUserType').value;
+  var msg = document.getElementById('createMsg');
+  if (!name || !email) { msg.innerHTML = '<span style="color:#f44336;">Name and email required</span>'; return; }
+  msg.innerHTML = '<span style="color:#FFD700;">Creating user...</span>';
+  var data = await adminCall('create-user', {email: email, name: name, type: type});
   if (!data) return;
-  var out = document.getElementById('adminOutput');
-  out.innerHTML = '<strong style="color:#4CAF50;">✅ ' + data.message + '</strong>';
+  msg.innerHTML = '<span style="color:#4CAF50;">✅ ' + data.message + '</span>';
+  document.getElementById('newUserName').value = '';
+  document.getElementById('newUserEmail').value = '';
 }
 
 async function deleteUser() {
