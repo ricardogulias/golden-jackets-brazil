@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::800712212925:role/github-actions-deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_GJ }}:role/github-actions-deploy
           aws-region: us-east-1
 
       - name: Extract email and create Cognito user
@@ -37,7 +37,7 @@ jobs:
           TEMP_PASS="GJ$(date +%s | tail -c 6)!"
           
           aws cognito-idp admin-create-user \
-            --user-pool-id us-east-1_Z0VzzrmIX \
+            --user-pool-id ${{ secrets.COGNITO_POOL_ID }} \
             --username "$EMAIL" \
             --temporary-password "$TEMP_PASS" \
             --user-attributes Name=email,Value="$EMAIL" Name=email_verified,Value=true \

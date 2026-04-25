@@ -16,7 +16,7 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::948949707127:role/github-actions-deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ORIGIN }}:role/github-actions-deploy
           aws-region: us-east-1
 
       - name: Sync to S3 (origin)
@@ -25,7 +25,8 @@ jobs:
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude ".gitignore" \
-            --exclude "README.md"
+            --exclude "README.md" \
+            --exclude "SECURITY.md"
 
   deploy-www:
     runs-on: ubuntu-latest
@@ -34,7 +35,7 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::800712212925:role/github-actions-deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_GJ }}:role/github-actions-deploy
           aws-region: us-east-1
 
       - name: Sync to S3 (www)
@@ -43,7 +44,8 @@ jobs:
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude ".gitignore" \
-            --exclude "README.md"
+            --exclude "README.md" \
+            --exclude "SECURITY.md"
 
   invalidate:
     needs: [deploy-origin, deploy-www]
@@ -51,11 +53,11 @@ jobs:
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::800712212925:role/github-actions-deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_GJ }}:role/github-actions-deploy
           aws-region: us-east-1
 
       - name: Invalidate CloudFront
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id E3N4417EU5IQE6 \
+            --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} \
             --paths "/*"
