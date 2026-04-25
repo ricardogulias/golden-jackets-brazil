@@ -225,6 +225,9 @@
     .member-card.challenger:hover { box-shadow: 0 8px 40px rgba(200,200,220,0.25); border-color: rgba(200,200,220,0.5); }
     .member-card.challenger .certified { color: #CCCCDD; }
     .member-card.challenger .location { color: #fff; font-weight: 700; }
+    .member-card .card-number { position: absolute; top: 8px; right: 12px; font-size: 0.7em; color: rgba(255,215,0,0.4); font-weight: 700; }
+    .member-card.challenger .card-number { color: rgba(192,192,192,0.4); }
+    .member-card { position: relative; }
     .member-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 8px 40px rgba(255,215,0,0.25); border-color: rgba(255,215,0,0.5); }
     .member-card:hover .photo { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,215,0,0.3); }
     .member-card .photo { transition: transform 0.3s, box-shadow 0.3s; }
@@ -793,6 +796,7 @@
     <div class="members-grid">
 
       <div class="member-card founder" data-state="SP">
+        <span class="card-number">#1</span>
         <img src="assets/members/ricardogulias.jpg" alt="Ricardo Gulias" class="photo">
         <h3>Ricardo Gulias</h3>
         <div class="location">São Paulo, SP, Brazil</div>
@@ -807,6 +811,7 @@
       </div>
 
       <div class="member-card cofounder" data-state="SP">
+        <span class="card-number">#2</span>
         <img src="assets/members/wagnerazevedo.jpg" alt="Wagner Azevedo" class="photo">
         <h3>Wagner Azevedo</h3>
         <div class="location">Campinas, SP, Brazil</div>
@@ -823,6 +828,7 @@
       </div>
 
       <div class="member-card cofounder" data-state="SP">
+        <span class="card-number">#3</span>
         <img src="assets/members/erickmancz.jpg" alt="Erick Mancz" class="photo">
         <h3>Erick Mancz</h3>
         <div class="location">São Paulo, SP, Brazil</div>
@@ -837,6 +843,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#4</span>
         <img src="assets/members/carlosvieira.jpg" alt="Carlos Vieira" class="photo">
         <h3>Carlos Vieira</h3>
         <div class="location">Franco da Rocha, SP, Brazil</div>
@@ -851,6 +858,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#5</span>
         <img src="assets/members/adrianopaterlini.jpg" alt="Adriano Paterlini" class="photo">
         <h3>Adriano Paterlini</h3>
         <div class="location">São Paulo, SP, Brazil</div>
@@ -865,6 +873,7 @@
       </div>
 
       <div class="member-card" data-state="MG">
+        <span class="card-number">#6</span>
         <img src="assets/members/phillipprudencio.jpg" alt="Phillip Prudencio" class="photo">
         <h3>Phillip Prudencio</h3>
         <div class="location">Belo Horizonte, MG, Brazil</div>
@@ -879,6 +888,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#7</span>
         <img src="assets/members/josimarjose.jpg" alt="Josimar Nepomuceno" class="photo">
         <h3>Josimar Nepomuceno</h3>
         <div class="location">São Paulo, SP, Brazil</div>
@@ -893,6 +903,7 @@
       </div>
 
       <div class="member-card" data-state="PR">
+        <span class="card-number">#8</span>
         <img src="assets/members/alceuconerado.jpg" alt="Alceu Conerado Neto" class="photo">
         <h3>Alceu Conerado Neto</h3>
         <div class="location">Curitiba, PR, Brazil</div>
@@ -907,6 +918,7 @@
       </div>
 
       <div class="member-card" data-state="RJ">
+        <span class="card-number">#9</span>
         <img src="assets/members/viniciussiqueira.jpg" alt="Vinicius Siqueira" class="photo">
         <h3>Vinicius Siqueira</h3>
         <div class="location">Rio de Janeiro, RJ, Brazil</div>
@@ -921,6 +933,7 @@
       </div>
 
       <div class="member-card" data-state="RS">
+        <span class="card-number">#10</span>
         <img src="assets/members/murilolang.jpg" alt="Murilo Lang" class="photo">
         <h3>Murilo Lang</h3>
         <div class="location">Porto Alegre, RS, Brazil</div>
@@ -935,6 +948,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#11</span>
         <img src="assets/members/eltonsaheki.jpg" alt="Elton Saheki" class="photo">
         <h3>Elton Saheki</h3>
         <div class="location">Sorocaba, SP, Brazil</div>
@@ -949,6 +963,7 @@
       </div>
 
       <div class="member-card" data-state="PR">
+        <span class="card-number">#12</span>
         <img src="assets/members/lucascarvalho.jpg" alt="Lucas Carvalho" class="photo">
         <h3>Lucas Carvalho</h3>
         <div class="location">Curitiba, PR, Brazil</div>
@@ -963,6 +978,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#13</span>
         <img src="assets/members/rubensmacegossa.jpg" alt="Rubens Macegossa" class="photo">
         <h3>Rubens Macegossa</h3>
         <div class="location">São Paulo, SP, Brazil</div>
@@ -977,6 +993,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#14</span>
         <img src="assets/members/victorbatista.jpg" alt="Victor Batista" class="photo">
         <h3>Victor Batista</h3>
         <div class="location">Guarulhos, SP, Brazil</div>
@@ -991,6 +1008,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#15</span>
         <img src="assets/members/diegomarques.jpg" alt="Diego Marques" class="photo">
         <h3>Diego Marques</h3>
         <div class="location">Itapevi, SP, Brazil</div>
@@ -1008,6 +1026,7 @@
       </div>
 
       <div class="member-card" data-state="SP">
+        <span class="card-number">#16</span>
         <img src="assets/members/lucianodolencjr.jpg" alt="Luciano N. Dolenc Jr." class="photo">
         <h3>Luciano N. Dolenc Jr.</h3>
         <div class="location">São Paulo, SP, Brazil</div>
@@ -1022,6 +1041,7 @@
         </div>
       </div>
       <div class="member-card" data-state="RS">
+        <span class="card-number">#17</span>
         <img src="assets/members/pauloviannadarosa.JPG" alt="Paulo Vianna da Rosa" class="photo">
         <h3>Paulo Vianna da Rosa</h3>
         <div class="location">Santa Maria, RS, Brazil</div>
@@ -1035,6 +1055,7 @@
         </div>
       </div>
       <div class="member-card" data-state="PR">
+        <span class="card-number">#18</span>
         <img src="assets/members/joaovictormartins.jpg" alt="João Vitor Martins" class="photo">
         <h3>João Vitor Martins</h3>
         <div class="location">Curitiba, PR, Brazil</div>
@@ -1048,6 +1069,7 @@
         </div>
       </div>
       <div class="member-card" data-state="MG">
+        <span class="card-number">#19</span>
         <img src="assets/members/marcosdanielsantos.jpg" alt="Marcos Daniel Santos" class="photo">
         <h3>Marcos Daniel Santos</h3>
         <div class="location">Belo Horizonte, MG, Brazil</div>
@@ -1061,6 +1083,7 @@
         </div>
       </div>
       <div class="member-card" data-state="SP">
+        <span class="card-number">#20</span>
         <img src="assets/members/yohanconsani.jpeg" alt="Yohan Consani" class="photo">
         <h3>Yohan Consani</h3>
         <div class="location">Sao Paulo, SP, Brazil</div>
@@ -1074,6 +1097,7 @@
         </div>
       </div>
       <div class="member-card" data-state="SP">
+        <span class="card-number">#21</span>
         <img src="assets/members/jhonatanv.b.santos.jpeg" alt="Jhonatan V. B. Santos" class="photo">
         <h3>Jhonatan V. B. Santos</h3>
         <div class="location">Santo Andre, SP, Brazil</div>
@@ -1087,6 +1111,7 @@
         </div>
       </div>
       <div class="member-card" data-state="TO">
+        <span class="card-number">#22</span>
         <img src="assets/members/claisonrezendeamorim.jpeg" alt="Claison Rezende Amorim" class="photo">
         <h3>Claison Rezende Amorim</h3>
         <div class="location">Palmas, TO, Brazil</div>
@@ -1100,6 +1125,7 @@
         </div>
       </div>
       <div class="member-card" data-state="RJ">
+        <span class="card-number">#23</span>
         <img src="assets/members/josecarvalheira.jpg" alt="José Carvalheira" class="photo">
         <h3>José Carvalheira</h3>
         <div class="location">Rio de Janeiro, RJ, Brazil</div>
@@ -1113,6 +1139,7 @@
         </div>
       </div>
       <div class="member-card" data-state="SP">
+        <span class="card-number">#24</span>
         <img src="assets/members/lucaslopes.jpg" alt="Lucas Lopes" class="photo">
         <h3>Lucas Lopes</h3>
         <div class="location">Osasco, SP, Brazil</div>
@@ -1172,6 +1199,7 @@
       <!-- Challenger cards go here -->
 
       <div class="member-card challenger" data-state="PR">
+        <span class="card-number">#1</span>
         <img src="assets/members/walterneto.jpg" alt="Walter Neto" class="photo">
         <h3>Walter Neto</h3>
         <div class="location">Curitiba, PR, Brazil</div>
@@ -1186,6 +1214,7 @@
       </div>
 
       <div class="member-card challenger" data-state="RJ">
+        <span class="card-number">#2</span>
         <img src="assets/members/heliolopes.jpg" alt="Helio Lopes" class="photo">
         <h3>Helio Lopes</h3>
         <div class="location">Nova Iguaçu, RJ, Brazil</div>
@@ -1200,6 +1229,7 @@
       </div>
 
       <div class="member-card challenger" data-state="SP">
+        <span class="card-number">#3</span>
         <img src="assets/members/adrianoakissue.jpg" alt="Adriano Akissue" class="photo">
         <h3>Adriano Akissue</h3>
         <div class="location">São Paulo, SP, Brazil</div>
@@ -1214,6 +1244,7 @@
       </div>
 
       <div class="member-card challenger" data-state="SP">
+        <span class="card-number">#4</span>
         <img src="assets/members/brunovilardi.jpg" alt="Bruno Vilardi" class="photo">
         <h3>Bruno Vilardi</h3>
         <div class="location">São Caetano, SP, Brazil</div>
