@@ -61,3 +61,59 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} \
             --paths "/*"
+
+  smoke-test:
+    needs: [invalidate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for CloudFront propagation
+        run: sleep 30
+
+      - name: Check site is online
+        run: |
+          echo "🔍 Smoke Test Starting..."
+          ERRORS=0
+
+          # Main site
+          HTTP=$(curl -s -o /tmp/index.html -w "%{http_code}" https://goldenjacketsbrazil.com)
+          echo "Main site: HTTP $HTTP"
+          [ "$HTTP" = "200" ] && echo "  ✅ OK" || { echo "  ❌ FAIL"; ERRORS=$((ERRORS+1)); }
+
+          # Lounge
+          HTTP=$(curl -s -o /dev/null -w "%{http_code}" https://goldenjacketsbrazil.com/members.html)
+          echo "Lounge: HTTP $HTTP"
+          [ "$HTTP" = "200" ] && echo "  ✅ OK" || { echo "  ❌ FAIL"; ERRORS=$((ERRORS+1)); }
+
+          # Admin
+          HTTP=$(curl -s -o /dev/null -w "%{http_code}" https://goldenjacketsbrazil.com/admin.html)
+          echo "Admin: HTTP $HTTP"
+          [ "$HTTP" = "200" ] && echo "  ✅ OK" || { echo "  ❌ FAIL"; ERRORS=$((ERRORS+1)); }
+
+          # Count member cards
+          GOLDEN=$(grep -c 'member-card" data-state\|member-card founder" data-state\|member-card cofounder" data-state' /tmp/index.html || echo 0)
+          CHALLENGERS=$(grep -c 'member-card challenger" data-state' /tmp/index.html || echo 0)
+          echo "Golden Jackets: $GOLDEN"
+          echo "Challengers: $CHALLENGERS"
+          echo "Total cards: $((GOLDEN + CHALLENGERS))"
+          [ "$GOLDEN" -ge 20 ] && echo "  ✅ Card count OK" || { echo "  ❌ Too few cards ($GOLDEN)"; ERRORS=$((ERRORS+1)); }
+
+          # Check APIs respond
+          for EP in apply article sponsor; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/$EP -H "Content-Type: application/json" -d '{}')
+            echo "API /$EP: HTTP $CODE"
+            [ "$CODE" != "000" ] && echo "  ✅ Responding" || { echo "  ❌ Offline"; ERRORS=$((ERRORS+1)); }
+          done
+
+          # Admin should be 401 without token
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://kqiq2bltjd.execute-api.us-east-1.amazonaws.com/admin -H "Content-Type: application/json" -d '{}')
+          echo "API /admin (no token): HTTP $CODE"
+          [ "$CODE" = "401" ] && echo "  ✅ Protected" || { echo "  ❌ Not protected ($CODE)"; ERRORS=$((ERRORS+1)); }
+
+          echo ""
+          echo "========================"
+          if [ "$ERRORS" -eq 0 ]; then
+            echo "✅ ALL SMOKE TESTS PASSED"
+          else
+            echo "❌ $ERRORS TEST(S) FAILED"
+            exit 1
+          fi
