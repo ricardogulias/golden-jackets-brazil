@@ -128,8 +128,15 @@ if (!token || email !== 'ricardo.gulias@darede.com.br') {
   document.body.innerHTML = '<div style="text-align:center;padding:100px;"><h2 style="color:#f44336;">Access Denied</h2><p style="color:#888;margin-top:12px;">Admin access restricted.</p><a href="/members.html" style="color:#FFD700;">← Back to Lounge</a></div>';
 }
 
+var lastAction = '';
 async function adminCall(action, extra) {
   var out = document.getElementById('adminOutput');
+  if (out.style.display === 'block' && lastAction === action && !extra) {
+    out.style.display = 'none';
+    lastAction = '';
+    return null;
+  }
+  lastAction = action;
   out.style.display = 'block';
   out.innerHTML = '<span style="color:#FFD700;">Loading...</span>';
   try {
